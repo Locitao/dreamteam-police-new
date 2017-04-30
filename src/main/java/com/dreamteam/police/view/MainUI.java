@@ -49,7 +49,7 @@ public class MainUI extends UI implements ViewDisplay {
     private CssLayout createCssLayout() {
         //TODO: perhaps replace with an actual MenuBar object?
         final CssLayout navigationBar = new CssLayout();
-        navigationBar.addStyleName(ValoTheme.MENUBAR_BORDERLESS);
+        navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
         navigationBar.addComponent(createNavigationButton("Home", DefaultView.VIEW_NAME));
         navigationBar.addComponent(createNavigationButton("Search car trackers", SearchCarTrackerView.SEARCH_CAR_VIEW));
         return navigationBar;
