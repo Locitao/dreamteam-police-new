@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Loci on 30-4-2017.
@@ -31,6 +32,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
 
     private List<String> strings;
     private ListDataProvider<Car> cars;
+    private Set<Car> selectedCars;
 
     @PostConstruct
     void init() {
@@ -61,9 +63,18 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
             cars.setFilter(Car::getICAN, ican -> ican.contains(temp));
         });
 
-        layout.addComponent(carGrid);
-        layout.setComponentAlignment(carGrid, Alignment.TOP_RIGHT);
+        VerticalLayout rightVerticalLayout = new VerticalLayout();
+        rightVerticalLayout.addComponent(carGrid);
+        rightVerticalLayout.setComponentAlignment(carGrid, Alignment.TOP_RIGHT);
 
+        Button submitSelectedCars = new Button("Report car as stolen (SOON)");
+        submitSelectedCars.setStyleName(ValoTheme.BUTTON_PRIMARY);
+        submitSelectedCars.addClickListener(e -> doSomethingWithCars());
+
+        rightVerticalLayout.addComponent(submitSelectedCars);
+        rightVerticalLayout.setComponentAlignment(submitSelectedCars, Alignment.BOTTOM_RIGHT);
+
+        layout.addComponent(rightVerticalLayout);
         addComponent(layout);
     }
 
@@ -74,8 +85,19 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
         grid.addColumn(Car::getICAN).setCaption("ICAN");
         grid.addColumn(Car::getVIN).setCaption("VIN");
         grid.addColumn(Car::getLicenceplate).setCaption("Licence plate");
+        grid.setSelectionMode(Grid.SelectionMode.MULTI);
+        grid.addSelectionListener(e -> selectedCars = e.getAllSelectedItems());
 
         return grid;
+    }
+
+    private void doSomethingWithCars() {
+        if (selectedCars == null || selectedCars.isEmpty()) {
+            Notification.show("Please select one or more cars before you press the button.");
+            return;
+        }
+
+        Notification.show("Congratulations, you pressed the button.");
     }
 
     @Override
