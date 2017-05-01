@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Loci on 1-5-2017.
  */
-@Entity
+//@Entity
 public class Car implements Serializable {
 
     @Id

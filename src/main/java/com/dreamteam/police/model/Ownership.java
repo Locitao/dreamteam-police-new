@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by Loci on 1-5-2017.
  */
-@Entity
+//@Entity
 public class Ownership {
 
     @Id

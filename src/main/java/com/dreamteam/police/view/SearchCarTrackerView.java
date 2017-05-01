@@ -1,5 +1,7 @@
 package com.dreamteam.police.view;
 
+import com.dreamteam.police.model.Car;
+import com.dreamteam.police.service.CarService;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
@@ -8,6 +10,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -23,8 +26,11 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
 
     static final String SEARCH_CAR_VIEW = "SearchCarTracker";
 
+    @Autowired
+    private CarService carService;
+
     private List<String> strings;
-    private ListDataProvider<String> data;
+    private ListDataProvider<Car> cars;
 
     @PostConstruct
     void init() {
@@ -37,31 +43,39 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
         TextField carTrackerTextBox = new TextField("Car tracker:");
         verticalLayout.addComponent(carTrackerTextBox);
 
-        Button button = new Button("Add to grid");
+        Button button = new Button("Filter by ICAN");
         button.setStyleName(ValoTheme.BUTTON_PRIMARY);
-        button.addClickListener(e -> {
-            String temp = carTrackerTextBox.getValue();
-            strings.add(temp);
-            data.refreshAll();
-        });
         verticalLayout.addComponent(button);
 
         layout.addComponent(verticalLayout);
 
-        strings = new ArrayList<>();
-        strings.add("one");
-        strings.add("two");
-        data = DataProvider.ofCollection(strings);
+        Grid<Car> carGrid = getGridOfCars();
 
-        Grid<String> grid = new Grid<>();
-        grid.setDataProvider(data);
-        grid.addColumn(String::toUpperCase).setCaption("Ta-da");
-        layout.addComponent(grid);
-        layout.setComponentAlignment(grid, Alignment.TOP_RIGHT);
+        button.addClickListener(e -> {
+            String temp = carTrackerTextBox.getValue();
+            if (temp.isEmpty()) {
+                cars.clearFilters();
+                return;
+            }
 
+            cars.setFilter(Car::getICAN, ican -> ican.contains(temp));
+        });
 
+        layout.addComponent(carGrid);
+        layout.setComponentAlignment(carGrid, Alignment.TOP_RIGHT);
 
         addComponent(layout);
+    }
+
+    private Grid<Car> getGridOfCars() {
+        Grid<Car> grid = new Grid<>();
+        cars = DataProvider.ofCollection(carService.getCars());
+        grid.setDataProvider(cars);
+        grid.addColumn(Car::getICAN).setCaption("ICAN");
+        grid.addColumn(Car::getVIN).setCaption("VIN");
+        grid.addColumn(Car::getLicenceplate).setCaption("Licence plate");
+
+        return grid;
     }
 
     @Override
