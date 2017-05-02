@@ -36,7 +36,7 @@ public class Citizen implements Serializable {
     protected Citizen() {
     }
 
-    public Citizen(String lastName) {
+    public Citizen(String firstName, String lastName) {
         this.lastName = lastName;
     }
 
@@ -88,4 +88,8 @@ public class Citizen implements Serializable {
         this.ownerships = ownerships;
     }
     //endregion
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }

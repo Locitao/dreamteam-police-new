@@ -52,6 +52,7 @@ public class MainUI extends UI implements ViewDisplay {
         navigationBar.addStyleName(ValoTheme.LAYOUT_COMPONENT_GROUP);
         navigationBar.addComponent(createNavigationButton("Home", DefaultView.VIEW_NAME));
         navigationBar.addComponent(createNavigationButton("Search car trackers", SearchCarTrackerView.SEARCH_CAR_VIEW));
+        navigationBar.addComponent(createNavigationButton("Ownership overview", OwnershipView.OWNERSHIP_VIEW));
         return navigationBar;
     }
 }
