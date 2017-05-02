@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class Car implements Serializable {
         this.ICAN = ICAN;
         this.VIN = VIN;
         this.licenceplate = licenceplate;
+        ownerships = new ArrayList<>();
     }
 
     public Long getId() {
@@ -73,7 +75,8 @@ public class Car implements Serializable {
     }
 
     public List<Ownership> getOwnerships() {
-        return Collections.unmodifiableList(ownerships);
+        //return Collections.unmodifiableList(ownerships);
+        return new ArrayList<>(ownerships);
     }
 
     public void setOwnerships(List<Ownership> ownerships) {

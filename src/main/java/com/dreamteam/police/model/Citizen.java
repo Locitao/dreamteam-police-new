@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,7 +38,9 @@ public class Citizen implements Serializable {
     }
 
     public Citizen(String firstName, String lastName) {
+        this.firstName = firstName;
         this.lastName = lastName;
+        ownerships = new ArrayList<>();
     }
 
     public Long getId() {

@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,8 +40,10 @@ public class CarService {
         Citizen citizen1 = new Citizen("Test", "Fake");
 
         Ownership ownership = new Ownership();
+        ownership.setStartOwnership(new Date());
         ownership.setOwner(citizen);
         Ownership ownership1 = new Ownership();
+        ownership1.setStartOwnership(new Date());
         ownership1.setOwner(citizen1);
 
         List<Ownership> ownerships = new ArrayList<>();
