@@ -3,7 +3,9 @@ package com.dreamteam.police.service;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Citizen;
 import com.dreamteam.police.model.Ownership;
+import com.dreamteam.police.remote.RemoteCarData;
 import com.vaadin.spring.annotation.SpringComponent;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.security.acl.Owner;
@@ -18,12 +20,27 @@ import java.util.List;
 @SpringComponent
 public class CarService {
 
+    @Autowired
+    private RemoteCarData remoteCarData;
+
     private List<Car> cars;
 
     @PostConstruct
     void init() {
         cars = new ArrayList<>();
         cars = getTestCars();
+    }
+
+    public List<Car> getAllStolenCars() {
+        return new ArrayList<>();
+    }
+
+    public Car findCarByICAN(String ICAN) {
+        return new Car("NL 1234 AB", "VIN1234", "ASDF12");
+    }
+
+    public boolean postCarAsStolen(Car car) {
+        return true;
     }
 
     /**

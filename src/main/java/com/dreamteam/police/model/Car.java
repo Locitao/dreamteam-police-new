@@ -83,4 +83,29 @@ public class Car implements Serializable {
         this.ownerships = ownerships;
     }
     //endregion
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Car car = (Car) o;
+
+        if (id != null ? !id.equals(car.id) : car.id != null) return false;
+        if (ICAN != null ? !ICAN.equals(car.ICAN) : car.ICAN != null) return false;
+        if (VIN != null ? !VIN.equals(car.VIN) : car.VIN != null) return false;
+        if (licenceplate != null ? !licenceplate.equals(car.licenceplate) : car.licenceplate != null) return false;
+        return ownerships != null ? ownerships.equals(car.ownerships) : car.ownerships == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (ICAN != null ? ICAN.hashCode() : 0);
+        result = 31 * result + (VIN != null ? VIN.hashCode() : 0);
+        result = 31 * result + (licenceplate != null ? licenceplate.hashCode() : 0);
+        result = 31 * result + (ownerships != null ? ownerships.hashCode() : 0);
+        return result;
+    }
 }
