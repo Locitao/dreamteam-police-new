@@ -1,5 +1,7 @@
 package com.dreamteam.police.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.Date;
  * Created by Loci on 1-5-2017.
  */
 //@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Ownership {
 
     @Id

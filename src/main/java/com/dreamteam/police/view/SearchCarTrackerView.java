@@ -30,7 +30,6 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     @Autowired
     private CarService carService;
 
-    private List<String> strings;
     private ListDataProvider<Car> cars;
     private Set<Car> selectedCars;
 

@@ -1,5 +1,6 @@
 package com.dreamteam.police.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import java.util.List;
  * Created by Loci on 1-5-2017.
  */
 //@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Citizen implements Serializable {
 
     @Id
