@@ -30,4 +30,11 @@ public class RemoteCarData {
 
         return cars;
     }
+
+    public Citizen getCitizenById(long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        String url = String.format("IPHERE:8080/api/police/citizens/%d", id);
+        Citizen citizen = restTemplate.getForObject(url, Citizen.class);
+        return citizen;
+    }
 }
