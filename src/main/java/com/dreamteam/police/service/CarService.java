@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Loci on 1-5-2017.
@@ -41,6 +42,13 @@ public class CarService {
 
     public boolean postCarAsStolen(Car car) {
         return true;
+    }
+
+    public List<Car> searchCarsByIcan(String ICAN) {
+        return ownerships.stream()
+                .map(Ownership::getOwned)
+                .filter(c -> c.getICAN().contains(ICAN))
+                .collect(Collectors.toList());
     }
 
     /**

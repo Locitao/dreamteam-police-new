@@ -34,50 +34,25 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     private List<Car> cars;
     private ListDataProvider<Car> carListDataProvider;
     private Set<Car> selectedCars;
+    private String searchString = "";
+
+    //UI elements
+    private Grid<Car> carGrid;
 
     @PostConstruct
     void init() {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setSizeFull();
 
-        cars = new ArrayList<>();
+        initializeLists();
 
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.setSizeFull();
+        //first create the layout with the search box + button
+        VerticalLayout searchLayout = createSearchLayout();
+        layout.addComponent(searchLayout);
 
-        TextField carTrackerTextBox = new TextField("Car tracker:");
-        verticalLayout.addComponent(carTrackerTextBox);
+        VerticalLayout gridLayout = createCarGrid();
+        layout.addComponent(gridLayout);
 
-        Button button = new Button("Filter by ICAN");
-        button.setStyleName(ValoTheme.BUTTON_PRIMARY);
-        verticalLayout.addComponent(button);
-
-        layout.addComponent(verticalLayout);
-
-        Grid<Car> carGrid = getGridOfCars();
-
-        button.addClickListener(e -> {
-            String temp = carTrackerTextBox.getValue();
-            if (temp.isEmpty()) {
-                carListDataProvider.clearFilters();
-                return;
-            }
-
-            carListDataProvider.setFilter(Car::getICAN, ican -> ican.contains(temp));
-        });
-
-        VerticalLayout rightVerticalLayout = new VerticalLayout();
-        rightVerticalLayout.addComponent(carGrid);
-        rightVerticalLayout.setComponentAlignment(carGrid, Alignment.TOP_RIGHT);
-
-        Button submitSelectedCars = new Button("Report car as stolen (SOON)");
-        submitSelectedCars.setStyleName(ValoTheme.BUTTON_PRIMARY);
-        submitSelectedCars.addClickListener(e -> doSomethingWithCars());
-
-        rightVerticalLayout.addComponent(submitSelectedCars);
-        rightVerticalLayout.setComponentAlignment(submitSelectedCars, Alignment.BOTTOM_RIGHT);
-
-        layout.addComponent(rightVerticalLayout);
         addComponent(layout);
     }
 
@@ -86,26 +61,39 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
         cars = ownerships.stream().map(Ownership::getOwned).collect(Collectors.toList());
     }
 
-    private Grid<Car> getGridOfCars() {
-        Grid<Car> grid = new Grid<>();
-        carListDataProvider = DataProvider.ofCollection(cars);
-        grid.setDataProvider(carListDataProvider);
-        grid.addColumn(Car::getICAN).setCaption("ICAN");
-        grid.addColumn(Car::getVIN).setCaption("VIN");
-        grid.addColumn(Car::getLicenceplate).setCaption("Licence plate");
-        grid.setSelectionMode(Grid.SelectionMode.MULTI);
-        grid.addSelectionListener(e -> selectedCars = e.getAllSelectedItems());
+    private VerticalLayout createSearchLayout() {
+        VerticalLayout search = new VerticalLayout();
+        search.setSizeFull();
 
-        return grid;
+        TextField searchBox = new TextField("Enter ICAN");
+        Button searchButton = new Button("Search for matching cars");
+        searchButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+        searchButton.addClickListener(e -> searchString = searchBox.getValue());
+        searchButton.addClickListener(e -> updateCarDataProvider());
+
+        search.addComponent(searchBox);
+        search.addComponent(searchButton);
+
+        return search;
     }
 
-    private void doSomethingWithCars() {
-        if (selectedCars == null || selectedCars.isEmpty()) {
-            Notification.show("Please select one or more carListDataProvider before you press the button.");
-            return;
-        }
+    private void updateCarDataProvider() {
+        List<Car> newCars = carService.searchCarsByIcan(searchString);
+        carListDataProvider = DataProvider.ofCollection(newCars);
+        carGrid.setDataProvider(carListDataProvider);
+    }
 
-        Notification.show("Congratulations, you pressed the button.");
+    private VerticalLayout createCarGrid() {
+        VerticalLayout layout = new VerticalLayout();
+        layout.setSizeFull();
+
+        carGrid = new Grid<>();
+        carGrid.addColumn(Car::getICAN).setCaption("ICAN");
+        carGrid.addColumn(Car::getVIN).setCaption("VIN");
+        carGrid.addColumn(Car::getLicenceplate).setCaption("Licence plate");
+
+        layout.addComponent(carGrid);
+        return layout;
     }
 
     @Override
