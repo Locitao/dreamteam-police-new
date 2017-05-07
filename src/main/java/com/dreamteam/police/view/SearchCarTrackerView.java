@@ -1,6 +1,7 @@
 package com.dreamteam.police.view;
 
 import com.dreamteam.police.model.Car;
+import com.dreamteam.police.model.Ownership;
 import com.dreamteam.police.service.CarService;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
@@ -14,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Loci on 30-4-2017.
@@ -30,13 +31,16 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     @Autowired
     private CarService carService;
 
-    private ListDataProvider<Car> cars;
+    private List<Car> cars;
+    private ListDataProvider<Car> carListDataProvider;
     private Set<Car> selectedCars;
 
     @PostConstruct
     void init() {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setSizeFull();
+
+        cars = new ArrayList<>();
 
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setSizeFull();
@@ -55,11 +59,11 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
         button.addClickListener(e -> {
             String temp = carTrackerTextBox.getValue();
             if (temp.isEmpty()) {
-                cars.clearFilters();
+                carListDataProvider.clearFilters();
                 return;
             }
 
-            cars.setFilter(Car::getICAN, ican -> ican.contains(temp));
+            carListDataProvider.setFilter(Car::getICAN, ican -> ican.contains(temp));
         });
 
         VerticalLayout rightVerticalLayout = new VerticalLayout();
@@ -77,10 +81,15 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
         addComponent(layout);
     }
 
+    private void initializeLists() {
+        List<Ownership> ownerships = carService.getOwnerships();
+        cars = ownerships.stream().map(Ownership::getOwned).collect(Collectors.toList());
+    }
+
     private Grid<Car> getGridOfCars() {
         Grid<Car> grid = new Grid<>();
-        cars = DataProvider.ofCollection(carService.getCars());
-        grid.setDataProvider(cars);
+        carListDataProvider = DataProvider.ofCollection(cars);
+        grid.setDataProvider(carListDataProvider);
         grid.addColumn(Car::getICAN).setCaption("ICAN");
         grid.addColumn(Car::getVIN).setCaption("VIN");
         grid.addColumn(Car::getLicenceplate).setCaption("Licence plate");
@@ -92,7 +101,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
 
     private void doSomethingWithCars() {
         if (selectedCars == null || selectedCars.isEmpty()) {
-            Notification.show("Please select one or more cars before you press the button.");
+            Notification.show("Please select one or more carListDataProvider before you press the button.");
             return;
         }
 

@@ -18,7 +18,7 @@ import java.util.List;
  */
 //@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Citizen implements Serializable {
+public class Citizen implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,17 +30,14 @@ public class Citizen implements Serializable {
     private String preposition;
     @NotNull
     private String lastName;
-    @OneToMany
-    private List<Ownership> ownerships;
 
-    //region Constructor, getters & setters
     protected Citizen() {
+
     }
 
     public Citizen(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        ownerships = new ArrayList<>();
     }
 
     public Long getId() {
@@ -82,15 +79,6 @@ public class Citizen implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public List<Ownership> getOwnerships() {
-        return Collections.unmodifiableList(ownerships);
-    }
-
-    public void setOwnerships(List<Ownership> ownerships) {
-        this.ownerships = ownerships;
-    }
-    //endregion
 
     public String getFullName() {
         return firstName + " " + lastName;

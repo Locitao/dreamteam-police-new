@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.security.acl.Owner;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by loci on 2-5-17.
@@ -53,10 +54,18 @@ public class OwnershipView extends VerticalLayout implements View {
         cars = new ArrayList<>();
         ownerships = new ArrayList<>();
 
+        initializeLists();
+
+
         root.addComponent(createCarGrid());
         root.addComponent(createOwnershipGrid());
 
         addComponent(root);
+    }
+
+    private void initializeLists() {
+        ownerships = carService.getOwnerships();
+        ownerships.forEach(o -> cars.add(o.getOwned()));
     }
 
     private VerticalLayout createCarGrid() {
@@ -64,7 +73,6 @@ public class OwnershipView extends VerticalLayout implements View {
 
         Grid<Car> grid = new Grid<>();
 
-        cars = carService.getCars();
         carDataProvider = DataProvider.ofCollection(cars);
         grid.setDataProvider(carDataProvider);
         grid.addColumn(Car::getICAN).setCaption("ICAN");
@@ -79,11 +87,11 @@ public class OwnershipView extends VerticalLayout implements View {
     }
 
     private void updateOwnershipGrid(SelectionEvent<Car> event) {
-        Collection<Ownership> temp3 = ownershipDataProvider.getItems();
-
         Optional<Car> car = event.getFirstSelectedItem();
         if (car.isPresent()) {
-            ownerships = car.get().getOwnerships();
+            ownerships = carService.getOwnerships().stream()
+                .filter(o -> o.getOwned().equals(car.get()))
+                .collect(Collectors.toList());
         } else {
             ownerships.clear();
         }

@@ -28,10 +28,7 @@ public class Car implements Serializable {
     @NotNull
     private String VIN;
     private String licenceplate;
-    @OneToMany
-    private List<Ownership> ownerships;
 
-    //region Constructor, getters & setters
     protected Car() {
     }
 
@@ -39,7 +36,6 @@ public class Car implements Serializable {
         this.ICAN = ICAN;
         this.VIN = VIN;
         this.licenceplate = licenceplate;
-        ownerships = new ArrayList<>();
     }
 
     public Long getId() {
@@ -74,17 +70,6 @@ public class Car implements Serializable {
         this.licenceplate = licenceplate;
     }
 
-    public List<Ownership> getOwnerships() {
-        //return Collections.unmodifiableList(ownerships);
-        return new ArrayList<>(ownerships);
-    }
-
-    public void setOwnerships(List<Ownership> ownerships) {
-        this.ownerships = ownerships;
-    }
-    //endregion
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,8 +80,7 @@ public class Car implements Serializable {
         if (id != null ? !id.equals(car.id) : car.id != null) return false;
         if (ICAN != null ? !ICAN.equals(car.ICAN) : car.ICAN != null) return false;
         if (VIN != null ? !VIN.equals(car.VIN) : car.VIN != null) return false;
-        if (licenceplate != null ? !licenceplate.equals(car.licenceplate) : car.licenceplate != null) return false;
-        return ownerships != null ? ownerships.equals(car.ownerships) : car.ownerships == null;
+        return licenceplate != null ? licenceplate.equals(car.licenceplate) : car.licenceplate == null;
     }
 
     @Override
@@ -105,7 +89,7 @@ public class Car implements Serializable {
         result = 31 * result + (ICAN != null ? ICAN.hashCode() : 0);
         result = 31 * result + (VIN != null ? VIN.hashCode() : 0);
         result = 31 * result + (licenceplate != null ? licenceplate.hashCode() : 0);
-        result = 31 * result + (ownerships != null ? ownerships.hashCode() : 0);
         return result;
     }
 }
+
