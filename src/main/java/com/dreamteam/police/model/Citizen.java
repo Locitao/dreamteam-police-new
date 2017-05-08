@@ -1,6 +1,7 @@
 package com.dreamteam.police.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
@@ -22,16 +23,19 @@ public class Citizen implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
 
     private String initials;
     @NotNull
+    @JsonProperty("firstName")
     private String firstName;
     private String preposition;
     @NotNull
+    @JsonProperty("lastName")
     private String lastName;
 
-    protected Citizen() {
+    public Citizen() {
 
     }
 
