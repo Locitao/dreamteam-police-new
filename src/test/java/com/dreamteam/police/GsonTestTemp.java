@@ -24,11 +24,16 @@ public class GsonTestTemp {
     private Car car;
     private Citizen citizen;
     private Ownership ownership;
+    private List<Car> cars;
 
     @Before
     public void setUp() {
+        cars = new ArrayList<>();
         citizen = new Citizen("jan", "jansen");
         car = new Car("asdf", "1234", "as1234");
+        Car car1 = new Car("1234", "asdf123", "fakeshit");
+        cars.add(car);
+        cars.add(car1);
         ownership = new Ownership();
         ownership.setOwned(car);
         ownership.setOwner(citizen);
@@ -42,6 +47,13 @@ public class GsonTestTemp {
         Gson gson = new Gson();
         String json = gson.toJson(ownership);
         System.out.println(json.length());
+        System.out.println(json);
+    }
+
+    @Test
+    public void gsonTest() {
+        Gson gson = new Gson();
+        String json = gson.toJson(cars);
         System.out.println(json);
     }
 }

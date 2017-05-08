@@ -1,6 +1,7 @@
 package com.dreamteam.police.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
@@ -22,14 +23,23 @@ public class Car implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
     private Long id;
-
+    @JsonProperty("ICAN")
     private String ICAN;
-    @NotNull
+    @JsonProperty("VIN")
     private String VIN;
+    @JsonProperty("licenceplate")
     private String licenceplate;
 
-    protected Car() {
+    public Car() {
+    }
+
+    public Car(Long id, String ICAN, String VIN, String licenceplate) {
+        this.id = id;
+        this.ICAN = ICAN;
+        this.VIN = VIN;
+        this.licenceplate = licenceplate;
     }
 
     public Car(String ICAN, String VIN, String licenceplate) {
