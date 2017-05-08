@@ -4,6 +4,7 @@ import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Citizen;
 import com.dreamteam.police.model.Ownership;
 import com.dreamteam.police.remote.RemoteCarData;
+import com.dreamteam.police.remote.RemoteOwnershipData;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,12 +25,19 @@ public class CarService {
     @Autowired
     private RemoteCarData remoteCarData;
 
+    @Autowired
+    private RemoteOwnershipData remoteOwnershipData;
+
     private List<Ownership> ownerships;
 
     @PostConstruct
     void init() {
         ownerships = new ArrayList<>();
-        ownerships = getTestCars();
+        //ownerships = getTestCars();
+        /*
+        Only for demo purposes; will be reworked into ownership service
+         */
+        ownerships = remoteOwnershipData.getAllOwnerships();
     }
 
     public List<Car> getAllStolenCars() {
