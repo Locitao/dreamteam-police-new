@@ -5,8 +5,9 @@
 
 	<groupId>com.dreamteam-police</groupId>
 	<artifactId>police</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1-dev</version>
 	<packaging>jar</packaging>
+
 
 	<name>police</name>
 	<description>The police application for dreamteam.</description>
@@ -97,6 +98,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<executable>true</executable>
+					<finalName>police</finalName>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
