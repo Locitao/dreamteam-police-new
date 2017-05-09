@@ -17,7 +17,7 @@ public class DefaultView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        addComponent(new Label("This is the default view"));
+        addComponent(new Label("This is the default view THIS TEXT IS TO TEST DEPLOYMENT FROM MASTER"));
     }
 
     @Override
