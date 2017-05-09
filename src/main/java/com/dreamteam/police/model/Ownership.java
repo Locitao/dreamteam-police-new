@@ -28,13 +28,13 @@ public class Ownership {
     private Car owned;
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    //@JsonProperty("startOwnership")
-    @JsonIgnore
+    @JsonProperty("startOwnership")
+    //@JsonIgnore
     private Date startOwnership;
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    //@JsonProperty("endOwnership")
-    @JsonIgnore
+    @JsonProperty("endOwnership")
+    //@JsonIgnore
     private Date endOwnership;
 
     public Ownership() {

@@ -53,6 +53,7 @@ public class MainUI extends UI implements ViewDisplay {
         navigationBar.addComponent(createNavigationButton("Home", DefaultView.VIEW_NAME));
         navigationBar.addComponent(createNavigationButton("Search car trackers", SearchCarTrackerView.SEARCH_CAR_VIEW));
         navigationBar.addComponent(createNavigationButton("Ownership overview", OwnershipView.OWNERSHIP_VIEW));
+        navigationBar.addComponent(createNavigationButton("New ownership view", NewOwnershipView.NEW_OWNERSHIP_VIEW));
         return navigationBar;
     }
 }
