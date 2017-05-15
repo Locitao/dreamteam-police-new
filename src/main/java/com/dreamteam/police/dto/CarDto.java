@@ -16,6 +16,13 @@ public class CarDto {
     public CarDto() {
     }
 
+    public CarDto(Long id, String licensePlate, String vin, String ican) {
+        this.id = id;
+        this.licensePlate = licensePlate;
+        this.vin = vin;
+        this.ican = ican;
+    }
+
     public Long getId() {
         return id;
     }

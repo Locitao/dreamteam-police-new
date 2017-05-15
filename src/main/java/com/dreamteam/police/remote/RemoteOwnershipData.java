@@ -27,7 +27,6 @@ public class RemoteOwnershipData {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
         return null;
     }
 }
