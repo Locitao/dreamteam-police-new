@@ -3,13 +3,18 @@ package com.dreamteam.police.service;
 import com.dreamteam.police.dto.CarDto;
 import com.dreamteam.police.dto.StatusDto;
 import com.dreamteam.police.model.Car;
+import com.dreamteam.police.remote.RemoteReporting;
 import com.vaadin.spring.annotation.SpringComponent;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Loci on 15-5-2017.
  */
 @SpringComponent
 public class ReportCarService {
+
+    @Autowired
+    RemoteReporting remoteReporting;
 
     /**
      * Depending on the given status, can report a car as stolen, found or other things.
@@ -22,6 +27,6 @@ public class ReportCarService {
         CarDto carDto = new CarDto(car.getId(), car.getLicenceplate(), car.getVIN(), car.getICAN());
         StatusDto statusDto = new StatusDto(carDto, status, comment);
 
-        //TODO create api call to actually report car as stolen and use here.
+        remoteReporting.reportCar(statusDto);
     }
 }
