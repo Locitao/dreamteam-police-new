@@ -37,7 +37,7 @@ public class CarService {
         /*
         Only for demo purposes; will be reworked into ownership service
          */
-        ownerships = remoteOwnershipData.getAllOwnerships();
+        //ownerships = remoteOwnershipData.getAllOwnerships();
     }
 
     public List<Car> getAllStolenCars() {
@@ -53,6 +53,7 @@ public class CarService {
     }
 
     public List<Car> searchCarsByIcan(String ICAN) {
+        ownerships = remoteOwnershipData.getAllOwnerships();
         return ownerships.stream()
                 .map(Ownership::getOwned)
                 .filter(c -> c.getICAN().contains(ICAN))
