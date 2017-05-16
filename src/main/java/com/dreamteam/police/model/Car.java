@@ -31,6 +31,8 @@ public class Car implements Serializable {
     private String VIN;
     @JsonProperty("licenceplate")
     private String licenceplate;
+    private String fuelType;
+    private String color;
 
     public Car() {
     }
@@ -80,6 +82,22 @@ public class Car implements Serializable {
         this.licenceplate = licenceplate;
     }
 
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -90,7 +108,9 @@ public class Car implements Serializable {
         if (id != null ? !id.equals(car.id) : car.id != null) return false;
         if (ICAN != null ? !ICAN.equals(car.ICAN) : car.ICAN != null) return false;
         if (VIN != null ? !VIN.equals(car.VIN) : car.VIN != null) return false;
-        return licenceplate != null ? licenceplate.equals(car.licenceplate) : car.licenceplate == null;
+        if (licenceplate != null ? !licenceplate.equals(car.licenceplate) : car.licenceplate != null) return false;
+        if (fuelType != null ? !fuelType.equals(car.fuelType) : car.fuelType != null) return false;
+        return color != null ? color.equals(car.color) : car.color == null;
     }
 
     @Override
@@ -99,6 +119,8 @@ public class Car implements Serializable {
         result = 31 * result + (ICAN != null ? ICAN.hashCode() : 0);
         result = 31 * result + (VIN != null ? VIN.hashCode() : 0);
         result = 31 * result + (licenceplate != null ? licenceplate.hashCode() : 0);
+        result = 31 * result + (fuelType != null ? fuelType.hashCode() : 0);
+        result = 31 * result + (color != null ? color.hashCode() : 0);
         return result;
     }
 }
