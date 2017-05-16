@@ -37,7 +37,7 @@ public class CarService {
         /*
         Only for demo purposes; will be reworked into ownership service
          */
-        ownerships = remoteOwnershipData.getAllOwnerships();
+        //ownerships = remoteOwnershipData.getAllOwnerships();
     }
 
     public List<Car> getAllStolenCars() {
@@ -48,44 +48,12 @@ public class CarService {
         return new Car("NL 1234 AB", "VIN1234", "ASDF12");
     }
 
-    public boolean postCarAsStolen(Car car) {
-        return true;
-    }
-
     public List<Car> searchCarsByIcan(String ICAN) {
+        ownerships = remoteOwnershipData.getAllOwnerships();
         return ownerships.stream()
                 .map(Ownership::getOwned)
                 .filter(c -> c.getICAN().contains(ICAN))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * This method is purely meant to instantiate a few cars to test with.
-     * @return
-     */
-    private List<Ownership> getTestCars() {
-        //TODO: for testing, add some ownerships and shit
-        Car car1 = new Car("asdf1234", "fakeVIN1", "asdf12");
-        Car car2 = new Car("asdf1235", "fakeVIN2", "asdf13");
-        Car car3 = new Car("asdf1236", "fakeVIN3", "asdf14");
-
-        Citizen citizen = new Citizen("Yoko", "Ono");
-        Citizen citizen1 = new Citizen("Test", "Fake");
-
-        Ownership ownership = new Ownership();
-        ownership.setStartOwnership(new Date());
-        ownership.setOwner(citizen);
-        ownership.setOwned(car1);
-        Ownership ownership1 = new Ownership();
-        ownership1.setStartOwnership(new Date());
-        ownership1.setOwner(citizen1);
-        ownership1.setOwned(car2);
-
-        List<Ownership> ownerships = new ArrayList<>();
-        ownerships.add(ownership);
-        ownerships.add(ownership1);
-
-        return ownerships;
     }
 
     public List<Ownership> getOwnerships() {

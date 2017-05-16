@@ -1,5 +1,6 @@
 package com.dreamteam.police.remote;
 
+import com.dreamteam.police.dto.CarDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Citizen;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,6 +46,23 @@ public class RemoteCarData {
         List<Car> cars = Arrays.asList(responseEntity.getBody());
         HttpStatus status = responseEntity.getStatusCode();
 
+        return cars;
+    }
+
+    public List<Car> findCarsByICAN(String ican) {
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<CarDto[]> responseEntity = restTemplate.getForEntity(baseUrl + "findcarsbyican?ican=" + ican, CarDto[].class);
+        List<CarDto> carDtos = Arrays.asList(responseEntity.getBody());
+        List<Car> cars = new ArrayList<>();
+        carDtos.forEach(c -> {
+            Car car = new Car();
+            car.setId(c.getId());
+            car.setICAN(c.getIcan());
+            car.setVIN(c.getVin());
+            car.setLicenceplate(c.getLicensePlate());
+            car.setColor(c.getVehicleColor());
+            car.setFuelType(c.getFuelType());
+        });
         return cars;
     }
 

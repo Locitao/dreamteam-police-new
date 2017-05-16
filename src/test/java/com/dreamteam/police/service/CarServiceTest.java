@@ -55,9 +55,4 @@ public class CarServiceTest {
         Car c = carService.findCarByICAN(validICAN);
         assertEquals("VIN number did not match", "VIN1234", c.getVIN());
     }
-
-    @Test
-    public void postCarAsStolen() throws Exception {
-    }
-
 }

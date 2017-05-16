@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class RemoteCarDataTest {
 
+    //TODO: change to mock? now they fail when Administration is offline
     @Autowired
     private RemoteCarData remoteCarData;
 
