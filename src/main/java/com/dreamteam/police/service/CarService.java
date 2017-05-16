@@ -48,10 +48,6 @@ public class CarService {
         return new Car("NL 1234 AB", "VIN1234", "ASDF12");
     }
 
-    public boolean postCarAsStolen(Car car) {
-        return true;
-    }
-
     public List<Car> searchCarsByIcan(String ICAN) {
         ownerships = remoteOwnershipData.getAllOwnerships();
         return ownerships.stream()

@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringComponent
 public class RemoteReporting {
 
-    public void reportCar(StatusDto statusDto) {
+    public boolean reportCar(StatusDto statusDto) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -28,5 +28,6 @@ public class RemoteReporting {
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(map, headers);
 
         ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.24.33:8080/dreamteam-administration/api/police/reportstolencar", request, String.class);
+        return true;
     }
 }
