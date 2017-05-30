@@ -1,5 +1,6 @@
 package com.dreamteam.police.jms;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
@@ -14,8 +15,10 @@ public class Sender {
     @Autowired
     ConfigurableApplicationContext context;
 
-    public void sendMessage(String message) {
+    public void sendMessage(StolenJmsDto stolenJmsDto) {
         JmsTemplate jmsTemplate = context.getBean(JmsTemplate.class);
+
+        String message = new Gson().toJson(stolenJmsDto);
 
         jmsTemplate.convertAndSend("StolenCarTopic", message);
     }

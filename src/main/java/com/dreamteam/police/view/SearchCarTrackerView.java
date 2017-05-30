@@ -1,6 +1,7 @@
 package com.dreamteam.police.view;
 
 import com.dreamteam.police.jms.Sender;
+import com.dreamteam.police.jms.StolenJmsDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Ownership;
 import com.dreamteam.police.service.CarService;
@@ -73,7 +74,6 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
         searchButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
         searchButton.addClickListener(e -> searchString = searchBox.getValue());
         searchButton.addClickListener(e -> updateCarDataProvider());
-
         search.addComponent(searchBox);
         search.addComponent(searchButton);
 
