@@ -1,5 +1,6 @@
 package com.dreamteam.police.view;
 
+import com.dreamteam.police.jms.Sender;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Ownership;
 import com.dreamteam.police.service.CarService;
@@ -30,6 +31,8 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
 
     @Autowired
     private CarService carService;
+    @Autowired
+    private Sender sender;
 
     private List<Car> cars;
     private ListDataProvider<Car> carListDataProvider;

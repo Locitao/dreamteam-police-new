@@ -15,7 +15,7 @@ import java.util.List;
 @SpringComponent
 public class RemoteOwnershipData {
 
-    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/api/police/ownerships";
+    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/ownerships";
 
     public List<Ownership> getAllOwnerships() {
         try {
