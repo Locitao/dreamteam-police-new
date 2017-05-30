@@ -50,10 +50,11 @@ public class CarService {
 
     public List<Car> searchCarsByIcan(String ICAN) {
         ownerships = remoteOwnershipData.getAllOwnerships();
-        return ownerships.stream()
+        List<Car> owned = ownerships.stream()
                 .map(Ownership::getOwned)
                 .filter(c -> c.getICAN().contains(ICAN))
                 .collect(Collectors.toList());
+        return owned;
     }
 
     public List<Ownership> getOwnerships() {

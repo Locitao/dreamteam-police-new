@@ -4,10 +4,9 @@ import com.dreamteam.police.dto.CarDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Citizen;
 import com.vaadin.spring.annotation.SpringComponent;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -22,37 +21,21 @@ import java.util.List;
 @SpringComponent
 public class RemoteCarData {
 
-    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/";
+    @Autowired
+    Authentication authentication;
 
-    public Car getCarByICAN(String ICAN) {
-        RestTemplate restTemplate = new RestTemplate();
-        Car car = restTemplate.getForObject("ENTER URL HERE", Car.class);
-        return car;
-    }
-
-    public Car getCarByID(long id) throws URISyntaxException {
-        RestTemplate restTemplate = new RestTemplate();
-        Car car = restTemplate.getForObject(String.format(baseUrl + "cars/%d", id), Car.class);
-
-        URI uri = new URI(String.format(baseUrl + "cars/%d", id));
-        ResponseEntity<String> pureJson = restTemplate.exchange(new RequestEntity<String>(HttpMethod.GET, uri), String.class);
-
-        return car;
-    }
-
-    public List<Car> getCarsOfCitizen(Citizen citizen) {
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Car[]> responseEntity = restTemplate.getForEntity("URL HERE", Car[].class);
-        List<Car> cars = Arrays.asList(responseEntity.getBody());
-        HttpStatus status = responseEntity.getStatusCode();
-
-        return cars;
-    }
+    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/api/police/";
 
     public List<Car> findCarsByICAN(String ican) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<CarDto[]> responseEntity = restTemplate.getForEntity(baseUrl + "findcarsbyican?ican=" + ican, CarDto[].class);
-        List<CarDto> carDtos = Arrays.asList(responseEntity.getBody());
+        //ResponseEntity<CarDto[]> responseEntity = restTemplate.getForEntity(baseUrl + "findcarsbyican?ican=" + ican, CarDto[].class);
+        List<CarDto> carDtos = new ArrayList<>();
+        try {
+            ResponseEntity<CarDto[]> responseEntity = restTemplate.exchange(baseUrl + "findcarsbyican?ican=" + ican, HttpMethod.GET, new HttpEntity<>(authentication.getHeaders()), CarDto[].class);
+            carDtos = Arrays.asList(responseEntity.getBody());
+        } catch (HttpClientErrorException ex) {
+            return new ArrayList<>();
+        }
         List<Car> cars = new ArrayList<>();
         carDtos.forEach(c -> {
             Car car = new Car();
@@ -63,22 +46,6 @@ public class RemoteCarData {
             car.setColor(c.getVehicleColor());
             car.setFuelType(c.getFuelType());
         });
-        return cars;
-    }
-
-    public Citizen getCitizenById(long id) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = String.format("IPHERE:8080/api/police/citizens/%d", id);
-        Citizen citizen = restTemplate.getForObject(url, Citizen.class);
-        return citizen;
-    }
-
-    public List<Car> getTestCars() {
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Car[]> responseEntity = restTemplate.getForEntity(baseUrl + "cars", Car[].class);
-        List<Car> cars = Arrays.asList(responseEntity.getBody());
-        HttpStatus status = responseEntity.getStatusCode();
-
         return cars;
     }
 }

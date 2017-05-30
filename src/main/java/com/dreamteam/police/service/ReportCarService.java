@@ -2,6 +2,7 @@ package com.dreamteam.police.service;
 
 import com.dreamteam.police.dto.CarDto;
 import com.dreamteam.police.dto.StatusDto;
+import com.dreamteam.police.jms.Sender;
 import com.dreamteam.police.jms.StolenJmsDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.remote.RemoteCarData;
@@ -9,6 +10,8 @@ import com.dreamteam.police.remote.RemoteReporting;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -21,6 +24,8 @@ public class ReportCarService {
     RemoteReporting remoteReporting;
     @Autowired
     RemoteCarData remoteCarData;
+    @Autowired
+    Sender sender;
 
     /**
      * Depending on the given status, can report a car as stolen, found or other things.
@@ -33,7 +38,12 @@ public class ReportCarService {
         CarDto carDto = new CarDto(car.getId(), car.getLicenceplate(), car.getVIN(), car.getICAN());
         StatusDto statusDto = new StatusDto(carDto, status, comment);
 
+        boolean booleanstatus = status.equals("stolen");
+
+        StolenJmsDto stolenJmsDto = new StolenJmsDto(car.getICAN(), car.getLicenceplate(), LocalDateTime.now().toEpochSecond(ZoneOffset.UTC), booleanstatus);
+
         remoteReporting.reportCar(statusDto);
+        sender.sendMessage(stolenJmsDto);
     }
 
     public void reportCar(StolenJmsDto stolenJmsDto) {

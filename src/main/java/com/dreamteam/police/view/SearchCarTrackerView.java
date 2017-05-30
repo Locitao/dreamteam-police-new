@@ -74,6 +74,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
         searchButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
         searchButton.addClickListener(e -> searchString = searchBox.getValue());
         searchButton.addClickListener(e -> updateCarDataProvider());
+        //searchButton.addClickListener(e -> sender.sendMessage(new StolenJmsDto("asdf", "asdf", 82173512213L, true)));
         search.addComponent(searchBox);
         search.addComponent(searchButton);
 
