@@ -22,7 +22,7 @@ import java.util.List;
 @SpringComponent
 public class RemoteCarData {
 
-    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/api/police/";
+    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/";
 
     public Car getCarByICAN(String ICAN) {
         RestTemplate restTemplate = new RestTemplate();
