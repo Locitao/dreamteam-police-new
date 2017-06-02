@@ -26,13 +26,13 @@ public class DefaultView extends VerticalLayout implements View {
 
     @PostConstruct
     void init() {
-        addComponent(new Label("This is the default view THIS TEXT IS TO TEST DEPLOYMENT FROM MASTER"));
-        Button test = new Button("send test message");
-        test.addClickListener(e -> {
-            StolenJmsDto stolenDto = new StolenJmsDto("asdf", "1234", Instant.now().getEpochSecond(), true);
-            jmsSender.sendMessage(stolenDto);
-        });
-        addComponent(test);
+        addComponent(new Label("Please click on one of the buttons above for useful stuff."));
+//        Button test = new Button("send test message");
+//        test.addClickListener(e -> {
+//            StolenJmsDto stolenDto = new StolenJmsDto("asdf", "1234", Instant.now().getEpochSecond(), true);
+//            jmsSender.sendMessage(stolenDto);
+//        });
+//        addComponent(test);
     }
 
     @Override
