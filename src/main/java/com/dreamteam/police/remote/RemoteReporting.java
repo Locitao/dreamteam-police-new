@@ -1,6 +1,6 @@
 package com.dreamteam.police.remote;
 
-import com.dreamteam.police.dto.StatusDto;
+import com.dreamteam.police.dto.StolenDTO;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,18 +16,18 @@ import org.springframework.web.client.RestTemplate;
 @SpringComponent
 public class RemoteReporting {
 
-    public boolean reportCar(StatusDto statusDto) {
+    public boolean reportCar(StolenDTO stolenDTO) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        map.add("statusDto", statusDto);
+        map.add("stolenDTO", stolenDTO);
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(map, headers);
 
-        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.24.33:8080/dreamteam-administration/api/police/reportstolencar", request, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.24.33:8080/dreamteam-administration/police/api/" + stolenDTO.getCarDTO().getIcan(), request, String.class);
         return true;
     }
 }

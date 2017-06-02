@@ -1,7 +1,7 @@
 package com.dreamteam.police.service;
 
-import com.dreamteam.police.dto.CarDto;
-import com.dreamteam.police.dto.StatusDto;
+import com.dreamteam.police.dto.CarDTO;
+import com.dreamteam.police.dto.StolenDTO;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.remote.RemoteReporting;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -24,9 +24,9 @@ public class ReportCarService {
      * @param comment
      */
     public void reportCar(Car car, String status, String comment) {
-        CarDto carDto = new CarDto(car.getId(), car.getLicenceplate(), car.getVIN(), car.getICAN());
-        StatusDto statusDto = new StatusDto(carDto, status, comment);
+        CarDTO carDTO = new CarDTO(car.getId(), car.getLicenceplate(), car.getVIN(), car.getICAN());
+        StolenDTO stolenDTO = new StolenDTO(carDTO, status, comment);
 
-        remoteReporting.reportCar(statusDto);
+        remoteReporting.reportCar(stolenDTO);
     }
 }
