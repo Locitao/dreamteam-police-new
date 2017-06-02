@@ -1,7 +1,11 @@
 package com.dreamteam.police.jms;
 
+import com.dreamteam.police.service.ReportCarService;
+import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,8 +14,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class Receiver {
 
+    @Autowired
+    private ReportCarService reportCarService;
+
     @JmsListener(destination = "StolenCarTopic")
     public void receiveMessage(Message message) {
         System.out.println("Received: " + message.toString());
+        MessageHeaders headers = message.getHeaders();
+        String clientId = (String) headers.get("jms_messageId");
+
+        if (clientId.contains("loci") || clientId.contains("dreamteam")) {
+            return;
+        }
+
+        String json = message.getPayload().toString();
+        Gson gson = new Gson();
+        StolenDto stolenDto = gson.fromJson(json, StolenDto.class);
+        reportCarService.reportStolenDtoFromJms(stolenDto);
     }
 }

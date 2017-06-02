@@ -7,6 +7,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.config.SimpleJmsListenerContainerFactory;
 
@@ -21,7 +22,8 @@ public class PoliceApplication {
 
 	@Bean
 	JmsListenerContainerFactory<?> myJmsContainerFactory(ConnectionFactory connectionFactory) {
-		SimpleJmsListenerContainerFactory factory = new SimpleJmsListenerContainerFactory();
+		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+		factory.setClientId("dreamteam-police");
 		factory.setConnectionFactory(connectionFactory);
 
 		return factory;
