@@ -8,16 +8,16 @@ public class StolenJmsDto {
     private String ican;
     private String licenseplate;
     private Long timestamp;
-    private boolean stolenvalue;
+    private boolean stolenValue;
 
     public StolenJmsDto() {
     }
 
-    public StolenJmsDto(String ican, String licenseplate, Long timestamp, boolean stolenvalue) {
+    public StolenJmsDto(String ican, String licenseplate, Long timestamp, boolean stolenValue) {
         this.ican = ican;
         this.licenseplate = licenseplate;
         this.timestamp = timestamp;
-        this.stolenvalue = stolenvalue;
+        this.stolenValue = stolenValue;
     }
 
     public String getIcan() {
@@ -44,21 +44,11 @@ public class StolenJmsDto {
         this.timestamp = timestamp;
     }
 
-    public boolean isStolenvalue() {
-        return stolenvalue;
+    public boolean getStolenValue() {
+        return stolenValue;
     }
 
-    public void setStolenvalue(boolean stolenvalue) {
-        this.stolenvalue = stolenvalue;
-    }
-
-    @Override
-    public String toString() {
-        return "StolenJmsDto{" +
-                "ican='" + ican + '\'' +
-                ", licenseplate='" + licenseplate + '\'' +
-                ", timestamp=" + timestamp +
-                ", stolenvalue=" + stolenvalue +
-                '}';
+    public void setStolenValue(boolean stolenValue) {
+        this.stolenValue = stolenValue;
     }
 }

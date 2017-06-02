@@ -8,18 +8,18 @@ import java.util.Date;
  * Created by loci on 30-5-17.
  */
 public class OwnershipDto {
-    private CarDto carDTO;
+    private CarDTO carDTO;
     private Citizen citizenDTO;
     private Date startOwnership;
 
     public OwnershipDto() {
     }
 
-    public CarDto getCarDTO() {
+    public CarDTO getCarDTO() {
         return carDTO;
     }
 
-    public void setCarDTO(CarDto carDTO) {
+    public void setCarDTO(CarDTO carDTO) {
         this.carDTO = carDTO;
     }
 

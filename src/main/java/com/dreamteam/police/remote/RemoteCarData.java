@@ -1,6 +1,6 @@
 package com.dreamteam.police.remote;
 
-import com.dreamteam.police.dto.CarDto;
+import com.dreamteam.police.dto.CarDTO;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Citizen;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -28,16 +28,17 @@ public class RemoteCarData {
 
     public List<Car> findCarsByICAN(String ican) {
         RestTemplate restTemplate = new RestTemplate();
+
         //ResponseEntity<CarDto[]> responseEntity = restTemplate.getForEntity(baseUrl + "findcarsbyican?ican=" + ican, CarDto[].class);
-        List<CarDto> carDtos = new ArrayList<>();
+        List<CarDTO> carDTOS = new ArrayList<>();
         try {
-            ResponseEntity<CarDto[]> responseEntity = restTemplate.exchange(baseUrl + "findcarsbyican?ican=" + ican, HttpMethod.GET, new HttpEntity<>(authentication.getHeaders()), CarDto[].class);
-            carDtos = Arrays.asList(responseEntity.getBody());
+            ResponseEntity<CarDTO[]> responseEntity = restTemplate.exchange(baseUrl + "findcarsbyican?ican=" + ican, HttpMethod.GET, new HttpEntity<>(authentication.getHeaders()), CarDTO[].class);
+            carDTOS = Arrays.asList(responseEntity.getBody());
         } catch (HttpClientErrorException ex) {
             return new ArrayList<>();
         }
         List<Car> cars = new ArrayList<>();
-        carDtos.forEach(c -> {
+        carDTOS.forEach(c -> {
             Car car = new Car();
             car.setId(c.getId());
             car.setICAN(c.getIcan());

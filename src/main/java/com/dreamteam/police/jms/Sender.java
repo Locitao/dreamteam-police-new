@@ -7,7 +7,7 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by loci on 30-5-17.
+ * Created by Loci on 2-6-2017.
  */
 @Component
 public class Sender {
@@ -16,10 +16,10 @@ public class Sender {
     ConfigurableApplicationContext context;
 
     public void sendMessage(StolenJmsDto stolenJmsDto) {
-        JmsTemplate jmsTemplate = context.getBean(JmsTemplate.class);
+        JmsTemplate template = context.getBean(JmsTemplate.class);
 
-        String message = new Gson().toJson(stolenJmsDto);
-
-        jmsTemplate.convertAndSend("StolenCarTopic", message);
+        Gson gson = new Gson();
+        String json = gson.toJson(stolenJmsDto);
+        template.convertAndSend("StolenCarTopic", json);
     }
 }

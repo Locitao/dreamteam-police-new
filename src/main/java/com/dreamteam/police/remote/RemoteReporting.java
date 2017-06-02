@@ -1,6 +1,6 @@
 package com.dreamteam.police.remote;
 
-import com.dreamteam.police.dto.StatusDto;
+import com.dreamteam.police.dto.StolenDTO;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,19 +21,19 @@ public class RemoteReporting {
     @Autowired
     Authentication authentication;
 
-    public boolean reportCar(StatusDto statusDto) {
+    public boolean reportCar(StolenDTO stolenDTO) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = authentication.getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        map.add("statusDto", statusDto);
+        map.add("stolenDTO", stolenDTO);
 
         HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(map, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.24.33:8080/dreamteam-administration/police/api/cars/" + statusDto.getCarDto().getIcan(), request, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.24.33:8080/dreamteam-administration/police/api/cars/" + stolenDTO.getCarDTO().getIcan(), request, String.class);
         } catch (HttpClientErrorException ex) {
             System.out.println("api not online yet.");
         }
