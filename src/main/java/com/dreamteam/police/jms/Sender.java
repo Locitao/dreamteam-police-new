@@ -15,11 +15,11 @@ public class Sender {
     @Autowired
     ConfigurableApplicationContext context;
 
-    public void sendMessage(StolenDto stolenDto) {
+    public void sendMessage(StolenJmsDto stolenJmsDto) {
         JmsTemplate template = context.getBean(JmsTemplate.class);
 
         Gson gson = new Gson();
-        String json = gson.toJson(stolenDto);
+        String json = gson.toJson(stolenJmsDto);
         template.convertAndSend("StolenCarTopic", json);
     }
 }

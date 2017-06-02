@@ -4,12 +4,19 @@ import com.dreamteam.police.dto.CarDTO;
 import com.dreamteam.police.dto.StolenDTO;
 import com.dreamteam.police.jms.Sender;
 import com.dreamteam.police.jms.StolenDto;
+import com.dreamteam.police.jms.StolenJmsDto;
+
 import com.dreamteam.police.model.Car;
+import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteReporting;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.time.Instant;
+
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
+
 
 /**
  * Created by Loci on 15-5-2017.
@@ -19,6 +26,10 @@ public class ReportCarService {
 
     @Autowired
     RemoteReporting remoteReporting;
+    @Autowired
+    RemoteCarData remoteCarData;
+    @Autowired
+    Sender sender;
 
     @Autowired
     Sender jmsReporting;
@@ -38,15 +49,16 @@ public class ReportCarService {
 
         boolean isStolen = status.equals("stolen");
 
-        StolenDto stolenDto = new StolenDto(car.getICAN(), car.getLicenceplate(), Instant.now().getEpochSecond(), isStolen);
-        jmsReporting.sendMessage(stolenDto);
+        StolenJmsDto stolenJmsDto = new StolenJmsDto(car.getICAN(), car.getLicenceplate(), Instant.now().getEpochSecond(), isStolen);
+        jmsReporting.sendMessage(stolenJmsDto);
     }
 
-    public void reportStolenDtoFromJms(StolenDto stolenDto) {
+    public void reportStolenDtoFromJms(StolenJmsDto stolenJmsDto) {
+        //jms message comes in, passes on to administration
         CarDTO carDTO = new CarDTO();
-        carDTO.setIcan(stolenDto.getIcan());
-        carDTO.setLicensePlate(stolenDto.getLicensePlate());
-        String status = stolenDto.getStolenValue() ? "stolen" : "found";
+        carDTO.setIcan(stolenJmsDto.getIcan());
+        carDTO.setLicensePlate(stolenJmsDto.getLicenseplate());
+        String status = stolenJmsDto.getStolenValue() ? "stolen" : "found";
         StolenDTO stolenDTO = new StolenDTO(carDTO, status, "");
         remoteReporting.reportCar(stolenDTO);
     }

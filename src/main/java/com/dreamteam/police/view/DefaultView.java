@@ -2,6 +2,7 @@ package com.dreamteam.police.view;
 
 import com.dreamteam.police.jms.Sender;
 import com.dreamteam.police.jms.StolenDto;
+import com.dreamteam.police.jms.StolenJmsDto;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
@@ -28,7 +29,7 @@ public class DefaultView extends VerticalLayout implements View {
         addComponent(new Label("This is the default view THIS TEXT IS TO TEST DEPLOYMENT FROM MASTER"));
         Button test = new Button("send test message");
         test.addClickListener(e -> {
-            StolenDto stolenDto = new StolenDto("asdf", "1234", Instant.now().getEpochSecond(), true);
+            StolenJmsDto stolenDto = new StolenJmsDto("asdf", "1234", Instant.now().getEpochSecond(), true);
             jmsSender.sendMessage(stolenDto);
         });
         addComponent(test);

@@ -41,18 +41,5 @@ public class CarServiceTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        when(remoteCarData.getCarByICAN(validICAN)).thenReturn(new Car(validICAN, "VIN1234", "ASDF12"));
-
-        when(remoteCarData.getCarsOfCitizen(validCitizen)).thenReturn(new ArrayList<>());
-    }
-
-    @Test
-    public void getAllStolenCars() throws Exception {
-    }
-
-    @Test
-    public void findCarByICAN() throws Exception {
-        Car c = carService.findCarByICAN(validICAN);
-        assertEquals("VIN number did not match", "VIN1234", c.getVIN());
     }
 }

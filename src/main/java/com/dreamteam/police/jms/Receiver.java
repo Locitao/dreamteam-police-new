@@ -8,6 +8,9 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Component;
 
+import javax.jms.JMSException;
+import javax.jms.TextMessage;
+
 /**
  * Created by loci on 28-5-17.
  */
@@ -29,7 +32,7 @@ public class Receiver {
 
         String json = message.getPayload().toString();
         Gson gson = new Gson();
-        StolenDto stolenDto = gson.fromJson(json, StolenDto.class);
-        reportCarService.reportStolenDtoFromJms(stolenDto);
+        StolenJmsDto stolenJmsDto = gson.fromJson(json, StolenJmsDto.class);
+        reportCarService.reportStolenDtoFromJms(stolenJmsDto);
     }
 }
