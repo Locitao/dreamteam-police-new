@@ -1,7 +1,7 @@
 package com.dreamteam.police.service;
 
-import com.dreamteam.police.dto.CarDto;
-import com.dreamteam.police.dto.StatusDto;
+import com.dreamteam.police.dto.CarDTO;
+import com.dreamteam.police.dto.StolenDTO;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.remote.RemoteReporting;
 import org.junit.Before;
@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -33,18 +32,18 @@ public class ReportCarServiceTest {
     private ReportCarService reportCarService;
 
     private Car validCar = new Car(1L,"1234", "123", "asdf12");
-    private StatusDto validStatusDto = new StatusDto(new CarDto(validCar.getId(), validCar.getLicenceplate(), validCar.getVIN(), validCar.getICAN()), "asdf", "asdf");
+    private StolenDTO validStolenDTO = new StolenDTO(new CarDTO(validCar.getId(), validCar.getLicenceplate(), validCar.getVIN(), validCar.getICAN()), "asdf", "asdf");
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        when(remoteReporting.reportCar(validStatusDto)).thenReturn(true);
+        when(remoteReporting.reportCar(validStolenDTO)).thenReturn(true);
     }
 
     @Test
     public void reportCar() throws Exception {
-        reportCarService.reportCar(validCar, validStatusDto.getStatus(), validStatusDto.getComment());
+        reportCarService.reportCar(validCar, validStolenDTO.getStatus(), validStolenDTO.getComment());
     }
 
 }

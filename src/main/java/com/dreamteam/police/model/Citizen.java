@@ -21,18 +21,20 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Citizen implements Serializable{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id;
 
+    private Long idNumber;
+
+    private String email;
+
     private String initials;
-    @NotNull
-    @JsonProperty("firstName")
+
+    @JsonProperty("firstname")
     private String firstName;
     private String preposition;
     @NotNull
-    @JsonProperty("lastName")
+    @JsonProperty("lastname")
     private String lastName;
 
     public Citizen() {
@@ -50,6 +52,22 @@ public class Citizen implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(Long idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getInitials() {

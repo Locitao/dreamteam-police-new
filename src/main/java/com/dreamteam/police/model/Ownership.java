@@ -15,24 +15,19 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Ownership {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     private Long id;
 
-    @ManyToOne
     @JsonProperty("owner")
     private Citizen owner;
-    @ManyToOne
+
     @JsonProperty("owned")
     private Car owned;
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+
     @JsonProperty("startOwnership")
     //@JsonIgnore
     private Date startOwnership;
-    @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
+
     @JsonProperty("endOwnership")
     //@JsonIgnore
     private Date endOwnership;

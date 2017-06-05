@@ -3,7 +3,7 @@ package com.dreamteam.police.dto;
 /**
  * Created by Loci on 14-5-2017.
  */
-public class CarDto {
+public class CarDTO {
 
     private Long id;
     private String licensePlate;
@@ -13,10 +13,10 @@ public class CarDto {
     private String vehicleColor;
 
     //region constructor getters and setters
-    public CarDto() {
+    public CarDTO() {
     }
 
-    public CarDto(Long id, String licensePlate, String vin, String ican) {
+    public CarDTO(Long id, String licensePlate, String vin, String ican) {
         this.id = id;
         this.licensePlate = licensePlate;
         this.vin = vin;

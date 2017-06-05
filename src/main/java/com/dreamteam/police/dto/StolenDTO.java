@@ -3,28 +3,28 @@ package com.dreamteam.police.dto;
 /**
  * Created by Loci on 15-5-2017.
  */
-public class StatusDto {
+public class StolenDTO {
 
-    private CarDto carDto;
+    private CarDTO carDTO;
     private String status;
     private String comment;
 
     //region getters setters constructor
-    public StatusDto() {
+    public StolenDTO() {
     }
 
-    public StatusDto(CarDto carDto, String status, String comment) {
-        this.carDto = carDto;
+    public StolenDTO(CarDTO carDTO, String status, String comment) {
+        this.carDTO = carDTO;
         this.status = status;
         this.comment = comment;
     }
 
-    public CarDto getCarDto() {
-        return carDto;
+    public CarDTO getCarDTO() {
+        return carDTO;
     }
 
-    public void setCarDto(CarDto carDto) {
-        this.carDto = carDto;
+    public void setCarDTO(CarDTO carDTO) {
+        this.carDTO = carDTO;
     }
 
     public String getStatus() {
