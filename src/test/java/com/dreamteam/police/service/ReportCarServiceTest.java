@@ -43,7 +43,7 @@ public class ReportCarServiceTest {
 
     @Test
     public void reportCar() throws Exception {
-        reportCarService.reportCar(validCar, validStolenDTO.getStatus(), validStolenDTO.getComment());
+        reportCarService.reportCar(validCar, validStolenDTO.getCarStatus(), validStolenDTO.getComments());
     }
 
 }

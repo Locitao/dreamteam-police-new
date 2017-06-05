@@ -6,17 +6,17 @@ package com.dreamteam.police.dto;
 public class StolenDTO {
 
     private CarDTO carDTO;
-    private String status;
-    private String comment;
+    private String carStatus;
+    private String comments;
 
     //region getters setters constructor
     public StolenDTO() {
     }
 
-    public StolenDTO(CarDTO carDTO, String status, String comment) {
+    public StolenDTO(CarDTO carDTO, String carStatus, String comments) {
         this.carDTO = carDTO;
-        this.status = status;
-        this.comment = comment;
+        this.carStatus = carStatus;
+        this.comments = comments;
     }
 
     public CarDTO getCarDTO() {
@@ -27,20 +27,20 @@ public class StolenDTO {
         this.carDTO = carDTO;
     }
 
-    public String getStatus() {
-        return status;
+    public String getCarStatus() {
+        return carStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCarStatus(String carStatus) {
+        this.carStatus = carStatus;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComments() {
+        return comments;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
     //endregion
 }

@@ -1,12 +1,10 @@
 package com.dreamteam.police.remote;
 
 import com.dreamteam.police.dto.StolenDTO;
+import com.google.gson.Gson;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
@@ -27,15 +25,18 @@ public class RemoteReporting {
         HttpHeaders headers = authentication.getHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
-        map.add("stolenDTO", stolenDTO);
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        Gson gson = new Gson();
+        String json = gson.toJson(stolenDTO);
+        map.add("stolenDTO", json);
 
-        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(map, headers);
+        HttpEntity<?> request = new HttpEntity<>(map, headers);
 
         try {
-            ResponseEntity<String> response = restTemplate.postForEntity("http://192.168.24.33:8080/dreamteam-administration/police/api/cars/" + stolenDTO.getCarDTO().getIcan(), request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange("http://192.168.24.33:8080/dreamteam-administration/police/api/cars/" + stolenDTO.getCarDTO().getIcan(), HttpMethod.POST, request, String.class);
         } catch (HttpClientErrorException ex) {
             System.out.println("api not online yet.");
+            ex.printStackTrace();
         }
         return true;
     }
