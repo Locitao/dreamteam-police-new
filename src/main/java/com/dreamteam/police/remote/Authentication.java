@@ -13,10 +13,10 @@ import java.nio.charset.Charset;
 public class Authentication {
 
     public HttpHeaders getHeaders() {
-//        String username = "police@police.police";
-//        String password = "police"; //lolhardcoded;
-        String username = "angela.merkel@mail.de";
-        String password = "admin";
+        String username = "police@police.police";
+        String password = "police"; //lolhardcoded;
+        //String username = "angela.merkel@mail.de";
+        //String password = "admin";
 
         String auth = username + ":" + password;
         byte[] encoded = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
