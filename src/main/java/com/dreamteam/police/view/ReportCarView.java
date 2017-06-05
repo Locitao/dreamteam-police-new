@@ -137,6 +137,7 @@ public class ReportCarView extends VerticalLayout implements View {
         }
 
         reportCarService.reportCar(selectedCar, status, comment);
+        Notification.show("Reported as " + status, Notification.Type.ASSISTIVE_NOTIFICATION);
     }
 
     @Override
