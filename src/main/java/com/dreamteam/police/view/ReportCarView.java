@@ -14,6 +14,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -110,7 +111,9 @@ public class ReportCarView extends VerticalLayout implements View {
 
         Button button = new Button("Post status of car");
         button.addStyleName(ValoTheme.BUTTON_FRIENDLY);
-        button.addClickListener(e -> postCarAsStolen(selectedStatus, commentArea.getValue()));
+        button.addClickListener(e -> {
+            postCarAsStolen(selectedStatus, commentArea.getValue());
+        });
         layout.addComponent(button);
 
         return layout;

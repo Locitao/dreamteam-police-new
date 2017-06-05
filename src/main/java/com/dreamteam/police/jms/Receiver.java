@@ -8,8 +8,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Component;
 
-import javax.jms.JMSException;
-import javax.jms.TextMessage;
+import java.io.IOException;
 
 /**
  * Created by loci on 28-5-17.

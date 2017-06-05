@@ -11,6 +11,8 @@ import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteReporting;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.IOException;
 import java.time.Instant;
 
 import java.time.LocalDateTime;
