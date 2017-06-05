@@ -47,7 +47,7 @@ public class ReportCarService {
 
         remoteReporting.reportCar(stolenDTO);
 
-        boolean isStolen = status.equals("stolen");
+        boolean isStolen = status.toLowerCase().equals("stolen");
 
         StolenJmsDto stolenJmsDto = new StolenJmsDto(car.getICAN(), car.getLicenceplate(), Instant.now().getEpochSecond(), isStolen);
         jmsReporting.sendMessage(stolenJmsDto);
