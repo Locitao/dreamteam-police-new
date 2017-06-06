@@ -9,6 +9,8 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
+import javax.sound.midi.Track;
+
 /**
  * Created by Loci on 30-4-2017.
  */
@@ -54,6 +56,7 @@ public class MainUI extends UI implements ViewDisplay {
         navigationBar.addComponent(createNavigationButton("Search car trackers", SearchCarTrackerView.SEARCH_CAR_VIEW));
         navigationBar.addComponent(createNavigationButton("Ownership view", NewOwnershipView.NEW_OWNERSHIP_VIEW));
         navigationBar.addComponent(createNavigationButton("Car reporting", ReportCarView.REPORT_CAR_VIEW));
+        navigationBar.addComponent(createNavigationButton("Track car", TrackCarView.TRACK_CAR));
         return navigationBar;
     }
 }
