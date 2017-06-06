@@ -129,18 +129,18 @@ public class ReportCarView extends VerticalLayout implements View {
     }
 
     private void postCarAsStolen(String status, String comment) {
-        if (status.equals("")) {
-            Notification.show("Please select a status.");
+        if (status == null || status.isEmpty()) {
+            Notification.show("Please select a status.", Notification.Type.ERROR_MESSAGE);
             return;
         }
 
         if (selectedCar == null) {
-            Notification.show("Please select a car.");
+            Notification.show("Please select a car.", Notification.Type.ERROR_MESSAGE);
             return;
         }
 
         reportCarService.reportCar(selectedCar, status, comment);
-        Notification.show("Reported as " + status, Notification.Type.ASSISTIVE_NOTIFICATION);
+        Notification.show("Reported " + selectedCar.getICAN() + " as " + status, Notification.Type.HUMANIZED_MESSAGE);
     }
 
     @Override
