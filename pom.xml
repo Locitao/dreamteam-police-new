@@ -133,6 +133,9 @@
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>${vaadin.version}</version>
+				<configuration>
+					<webappDirectory>src/main/VAADIN/widgetsets</webappDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 		<finalName>police</finalName>
