@@ -7,10 +7,6 @@
 	<artifactId>police</artifactId>
 	<version>0.1-dev</version>
 	<packaging>jar</packaging>
-	<build>
-		<finalName>police</finalName>
-	</build>
-
 
 	<name>police</name>
 	<description>The police application for dreamteam.</description>
@@ -136,6 +132,7 @@
 				<version>${vaadin.version}</version>
 			</plugin>
 		</plugins>
+		<finalName>police</finalName>
 	</build>
 
 </project>
