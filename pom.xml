@@ -7,9 +7,6 @@
 	<artifactId>police</artifactId>
 	<version>0.1-dev</version>
 	<packaging>jar</packaging>
-	<build>
-		<finalName>police</finalName>
-	</build>
 
 
 	<name>police</name>
@@ -136,6 +133,7 @@
 				<version>${vaadin.version}</version>
 			</plugin>
 		</plugins>
+		<finalName>police</finalName>
 	</build>
 
 </project>
