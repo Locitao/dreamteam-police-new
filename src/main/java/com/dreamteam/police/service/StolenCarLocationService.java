@@ -64,4 +64,8 @@ public class StolenCarLocationService {
     public boolean registerIcanAsStolenAtMovReg(String ICAN) {
         return remoteTrackCar.setRemoteTracking(ICAN);
     }
+
+    public List<IcanCoordinateDTO> getLocationHistory(String ICAN) {
+        return remoteTrackCar.getLocationHistory(ICAN);
+    }
 }
