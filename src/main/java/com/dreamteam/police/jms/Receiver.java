@@ -2,6 +2,7 @@ package com.dreamteam.police.jms;
 
 import com.dreamteam.police.service.ReportCarService;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.messaging.Message;
@@ -19,7 +20,7 @@ public class Receiver {
     @Autowired
     private ReportCarService reportCarService;
 
-    @JmsListener(destination = "StolenCarTopic")
+    @JmsListener(destination = "StolenCarTopic", containerFactory = "myJmsContainerFactory")
     public void receiveMessage(Message message) {
         System.out.println("Received: " + message.toString());
         MessageHeaders headers = message.getHeaders();
@@ -31,7 +32,13 @@ public class Receiver {
 
         String json = message.getPayload().toString();
         Gson gson = new Gson();
-        StolenJmsDto stolenJmsDto = gson.fromJson(json, StolenJmsDto.class);
+        StolenJmsDto stolenJmsDto;
+        try {
+            stolenJmsDto = gson.fromJson(json, StolenJmsDto.class);
+        } catch (JsonSyntaxException ex) {
+            System.out.println("Received bad message: " + message);
+            return;
+        }
         reportCarService.reportStolenDtoFromJms(stolenJmsDto);
     }
 }

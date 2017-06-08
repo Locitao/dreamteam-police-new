@@ -1,5 +1,6 @@
 package com.dreamteam.police;
 
+import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.Queue;
 
 @SpringBootApplication
 @EnableJms
@@ -23,10 +25,21 @@ public class PoliceApplication {
 	@Autowired
 	ConfigurableApplicationContext context;
 
+	@Autowired
+	protected ConnectionFactory activeMQConnectionFactory;
+
+	@Bean
+	public JmsListenerContainerFactory<?> jmsListenerContainerQueue() {
+		DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory();
+		bean.setConnectionFactory(activeMQConnectionFactory);
+		return bean;
+	}
+
 	@Bean
 	JmsListenerContainerFactory<?> myJmsContainerFactory(ConnectionFactory connectionFactory) {
 		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
 		factory.setClientId("dreamteam-police");
+		factory.setPubSubDomain(true);
 		factory.setConnectionFactory(connectionFactory);
 
 		return factory;
