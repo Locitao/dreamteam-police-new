@@ -23,8 +23,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<vaadin.version>8.0.5</vaadin.version>
+		<vaadin.version>8.0.4</vaadin.version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -88,6 +95,12 @@
 			<artifactId>activemq-broker</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>com.vaadin.tapio</groupId>
+			<artifactId>googlemaps</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<dependencyManagement>
@@ -107,13 +120,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<executable>true</executable>
-					<finalName>police</finalName>
-				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>${vaadin.version}</version>
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>
