@@ -1,9 +1,11 @@
 package com.dreamteam.police.view;
 
+import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.communication.PushMode;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
@@ -17,6 +19,7 @@ import javax.sound.midi.Track;
 @Theme("valo")
 @SpringUI
 @SpringViewDisplay
+@Push(PushMode.AUTOMATIC)
 public class MainUI extends UI implements ViewDisplay {
 
     private Panel springViewDisplay;

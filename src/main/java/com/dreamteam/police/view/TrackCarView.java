@@ -11,6 +11,7 @@ import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.tapio.googlemaps.GoogleMap;
 import com.vaadin.tapio.googlemaps.client.LatLon;
 import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapMarker;
+import com.vaadin.tapio.googlemaps.client.overlays.GoogleMapPolyline;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import javafx.collections.ListChangeListener;
@@ -35,6 +36,7 @@ public class TrackCarView extends VerticalLayout implements View {
     private final String apiKey = "obviouslyfake";
 
     private GoogleMap googleMap;
+    private GoogleMapPolyline lastLine;
 
     @PostConstruct
     void init() {
@@ -65,9 +67,22 @@ public class TrackCarView extends VerticalLayout implements View {
             if (!field.isEmpty()) {
                 trackIcan(field.getValue());
                 generateTestJson(field.getValue());
+            } else {
+                Notification.show("Enter an ICAN if you want to see something.", Notification.Type.ERROR_MESSAGE);
             }
         });
         layout.addComponent(trackCar);
+
+        Button locationHistoryButton = new Button("Get location history of entered ICAN");
+        locationHistoryButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
+        locationHistoryButton.addClickListener(e -> {
+            if (!field.isEmpty()) {
+                updateMapWithLocationHistory(field.getValue());
+            } else {
+                Notification.show("Enter an ICAN if you want to see something.", Notification.Type.ERROR_MESSAGE);
+            }
+        });
+        layout.addComponent(locationHistoryButton);
 
         return layout;
     }
@@ -90,12 +105,53 @@ public class TrackCarView extends VerticalLayout implements View {
             Notification.show("Could not register ICAN as stolen at the remote server; live tracking will not work.", Notification.Type.ERROR_MESSAGE);
         }
         ObservableList<Coordinate> coordinates = stolenCarLocationService.getCoordinatesOfIcan(ICAN);
-        coordinates.addListener((ListChangeListener<Coordinate>) c -> updateMap(coordinates));
+        coordinates.addListener((ListChangeListener<Coordinate>) c -> updateLiveTrackingMap(coordinates));
     }
 
-    private void updateMap(ObservableList<Coordinate> coordinates) {
+    private void updateLiveTrackingMap(ObservableList<Coordinate> coordinates) {
         googleMap.clearMarkers();
         coordinates.forEach(c -> googleMap.addMarker(new GoogleMapMarker("", new LatLon(c.getLat(), c.getLng()), false, null)));
+        getUI().push();
+    }
+
+    private void updateMapWithLocationHistory(String ICAN) {
+        googleMap.clearMarkers();
+        googleMap.removeAllComponents();
+
+        if (this.lastLine != null) {
+            googleMap.removePolyline(this.lastLine);
+        }
+
+        List<IcanCoordinateDTO> dtos = stolenCarLocationService.getLocationHistory(ICAN);
+
+        if (dtos == null) {
+            Notification.show("Could not reach remote for location data.", Notification.Type.ERROR_MESSAGE);
+            return;
+        }
+
+        if (dtos.isEmpty()) {
+            Notification.show("No location history found for given ICAN.", Notification.Type.TRAY_NOTIFICATION);
+            return;
+        }
+
+        googleMap.clearMarkers();
+        System.out.println("size of dtos: " + dtos.size());
+
+        List<LatLon> latlons = new ArrayList<>();
+        dtos.forEach(d -> {
+            latlons.add(new LatLon(d.getLat(), d.getLng()));
+        });
+
+        System.out.println("Size of latlons: " + latlons.size());
+
+        GoogleMapPolyline line = new GoogleMapPolyline(latlons, "#ff0000", 0.8, 5);
+        googleMap.addPolyline(line);
+        this.lastLine = line;
+
+        IcanCoordinateDTO lastDto = dtos.get(dtos.size() - 1);
+
+        GoogleMapMarker lastMarker = new GoogleMapMarker(lastDto.getICAN(), new LatLon(lastDto.getLat(), lastDto.getLng()), false, null);
+        googleMap.addMarker(lastMarker);
         getUI().push();
     }
 

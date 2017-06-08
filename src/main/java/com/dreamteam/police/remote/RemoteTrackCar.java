@@ -1,5 +1,6 @@
 package com.dreamteam.police.remote;
 
+import com.dreamteam.police.jms.IcanCoordinateDTO;
 import com.dreamteam.police.remote.dto.IcanDTO;
 import com.google.gson.Gson;
 import com.vaadin.spring.annotation.SpringComponent;
@@ -8,7 +9,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Loci on 7-6-2017.
@@ -33,10 +39,24 @@ public class RemoteTrackCar {
             RestTemplate template = new RestTemplate();
             ResponseEntity<String> response = template.postForEntity("http://192.168.24.31:8080/movement-registration/api/police/", request, String.class);
             return true;
-        } catch (HttpClientErrorException ex) {
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
             System.out.println("api not online yet.");
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    public List<IcanCoordinateDTO> getLocationHistory(String ICAN) {
+        List<IcanCoordinateDTO> dtos = new ArrayList<>();
+
+        try {
+            RestTemplate template = new RestTemplate();
+            ResponseEntity<IcanCoordinateDTO[]> responseEntity = template.getForEntity("http://192.168.24.31:8080/movement-registration/api/police/locationhistory/" + ICAN, IcanCoordinateDTO[].class);
+            dtos = Arrays.asList(responseEntity.getBody());
+            return dtos;
+        } catch (HttpClientErrorException | HttpServerErrorException ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
 }
