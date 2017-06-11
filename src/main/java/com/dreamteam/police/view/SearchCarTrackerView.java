@@ -4,11 +4,14 @@ import com.dreamteam.police.jms.Sender;
 import com.dreamteam.police.jms.StolenJmsDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Ownership;
+import com.dreamteam.police.security.SecuritySingleton;
 import com.dreamteam.police.service.CarService;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.*;
@@ -33,7 +36,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     @Autowired
     private CarService carService;
     @Autowired
-    private Sender sender;
+    private SecuritySingleton securitySingleton;
 
     private List<Car> cars;
     private ListDataProvider<Car> carListDataProvider;
@@ -102,6 +105,11 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        if (!securitySingleton.isLoggedIn(VaadinSession.getCurrent().getSession().getId())) {
+            UI ui = UI.getCurrent();
+            Navigator navigator = ui.getNavigator();
+            navigator.navigateTo(LoginView.LOGIN_VIEW);
+        }
         //constructed in init method
     }
 }

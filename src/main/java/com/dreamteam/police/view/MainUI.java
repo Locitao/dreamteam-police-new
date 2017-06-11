@@ -5,6 +5,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewDisplay;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
@@ -41,6 +42,8 @@ public class MainUI extends UI implements ViewDisplay {
 
     @Override
     public void showView(View view) {
+        String currentUser = (String) VaadinSession.getCurrent().getAttribute("user");
+
         springViewDisplay.setContent((Component) view);
     }
 
