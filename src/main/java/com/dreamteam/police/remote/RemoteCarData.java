@@ -24,7 +24,7 @@ public class RemoteCarData {
     @Autowired
     Authentication authentication;
 
-    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/api/police/";
+    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/";
 
     public List<Car> findCarsByICAN(String ican) {
         RestTemplate restTemplate = new RestTemplate();

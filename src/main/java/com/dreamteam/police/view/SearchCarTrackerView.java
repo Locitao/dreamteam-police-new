@@ -64,7 +64,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     }
 
     private void initializeLists() {
-        List<Ownership> ownerships = carService.getOwnerships();
+        List<Ownership> ownerships = carService.getAllOwnerships();
         cars = ownerships.stream().map(Ownership::getOwned).collect(Collectors.toList());
     }
 

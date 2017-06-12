@@ -9,12 +9,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 /**
  * Created by Loci on 8-5-2017.
@@ -27,7 +31,8 @@ public class RemoteOwnershipData {
 
     private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/ownerships";
 
-    public List<Ownership> getAllOwnerships() {
+    @Async
+    public CompletableFuture<List<Ownership>> getAllOwnerships() {
         try {
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<OwnershipDto[]> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.GET, new HttpEntity<>(authentication.getHeaders()), OwnershipDto[].class);
@@ -43,10 +48,19 @@ public class RemoteOwnershipData {
             });
 
             HttpStatus status = responseEntity.getStatusCode();
-            return ownerships;
+            return CompletableFuture.completedFuture(ownerships);
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();
         }
-        return new ArrayList<>();
+        return CompletableFuture.completedFuture(new ArrayList<>());
     }
+
+//    @Async
+//    public CompletableFuture<List<Ownership>> getAllOwnerships() {
+//        RestTemplate restTemplate = new RestTemplate();
+//        ResponseEntity<Ownership[]> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.GET, new HttpEntity<>(authentication.getHeaders()), Ownership[].class);
+//        List<Ownership> ownerships = Arrays.asList(responseEntity.getBody());
+//
+//        return CompletableFuture.completedFuture(ownerships);
+//    }
 }

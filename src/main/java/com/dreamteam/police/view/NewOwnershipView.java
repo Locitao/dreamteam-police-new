@@ -5,6 +5,7 @@ import com.dreamteam.police.model.Citizen;
 import com.dreamteam.police.model.Ownership;
 import com.dreamteam.police.remote.RemoteOwnershipData;
 import com.dreamteam.police.security.SecuritySingleton;
+import com.dreamteam.police.service.CarService;
 import com.dreamteam.police.service.OwnershipService;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
@@ -35,7 +36,7 @@ public class NewOwnershipView extends VerticalLayout implements View {
     public static final String NEW_OWNERSHIP_VIEW = "NEW_OWNERSHIP_VIEW";
 
     @Autowired
-    private RemoteOwnershipData remoteOwnershipData;
+    private CarService carService;
 
     @Autowired
     private SecuritySingleton securitySingleton;
@@ -73,9 +74,15 @@ public class NewOwnershipView extends VerticalLayout implements View {
     }
 
     private void initializeLists() {
-        ownershipList = remoteOwnershipData.getAllOwnerships();
+        ownershipList = carService.getAllOwnerships();
         carList = new ArrayList<>();
         citizenList = new ArrayList<>();
+    }
+
+    private void setOwnershipDataProvider() {
+        ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
+
+        ownershipGrid.setDataProvider(ownershipListDataProvider);
     }
 
     private VerticalLayout createOwnershipGrid() {
@@ -85,9 +92,9 @@ public class NewOwnershipView extends VerticalLayout implements View {
         ownershipGrid = new Grid<>();
         ownershipGrid.setCaption("Ownerships");
 
-        ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
-
-        ownershipGrid.setDataProvider(ownershipListDataProvider);
+        if (ownershipList == null) {
+            ownershipList = carService.getAllOwnerships();
+        }
 
         ownershipGrid.addColumn(Ownership::getId).setCaption("ID");
         ownershipGrid.addColumn(Ownership::getStartOwnership).setCaption("Start of ownership");

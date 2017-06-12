@@ -14,5 +14,4 @@ public class OwnershipService {
 
     @Autowired
     private RemoteOwnershipData ownershipData;
-
 }
