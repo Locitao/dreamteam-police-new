@@ -2,10 +2,13 @@ package com.dreamteam.police.view;
 
 import com.dreamteam.police.jms.IcanCoordinateDTO;
 import com.dreamteam.police.model.Coordinate;
+import com.dreamteam.police.security.SecuritySingleton;
 import com.dreamteam.police.service.StolenCarLocationService;
 import com.google.gson.Gson;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.tapio.googlemaps.GoogleMap;
@@ -32,6 +35,8 @@ public class TrackCarView extends VerticalLayout implements View {
 
     @Autowired
     private StolenCarLocationService stolenCarLocationService;
+    @Autowired
+    private SecuritySingleton securitySingleton;
 
     private final String apiKey = "obviouslyfake";
 
@@ -174,6 +179,11 @@ public class TrackCarView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        if (!securitySingleton.isLoggedIn(VaadinSession.getCurrent().getSession().getId())) {
+            UI ui = UI.getCurrent();
+            Navigator navigator = ui.getNavigator();
+            navigator.navigateTo(LoginView.LOGIN_VIEW);
+        }
         //initialized in init
     }
 }
