@@ -48,6 +48,7 @@ public class RemoteOwnershipData {
             });
 
             HttpStatus status = responseEntity.getStatusCode();
+            System.out.println("Received ownerships");
             return CompletableFuture.completedFuture(ownerships);
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();

@@ -1,6 +1,7 @@
 package com.dreamteam.police;
 
 import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
+import javax.jms.Topic;
 
 @SpringBootApplication
 @EnableJms
@@ -40,11 +42,14 @@ public class PoliceApplication {
 	}
 
 	@Bean
+	public Topic stolenCarTopic() { return new ActiveMQTopic("StolenCarTopic"); }
+
+	@Bean
 	JmsListenerContainerFactory<?> myJmsContainerFactory(ConnectionFactory connectionFactory) {
 		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-		factory.setClientId("dreamteam-police");
+		factory.setClientId("dreamteam-police-temp");
 		factory.setPubSubDomain(true);
-		factory.setConnectionFactory(connectionFactory);
+		factory.setConnectionFactory(activeMQConnectionFactory);
 
 		return factory;
 	}

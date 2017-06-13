@@ -25,12 +25,14 @@ public class Receiver {
         System.out.println("Received: " + message.toString());
         MessageHeaders headers = message.getHeaders();
         String clientId = (String) headers.get("jms_messageId");
+        System.out.println("received json: " + message.getPayload().toString());
 
         if (clientId.contains("loci") || clientId.contains("dreamteam")) {
             return;
         }
 
         String json = message.getPayload().toString();
+        System.out.println("received json: " + json);
         Gson gson = new Gson();
         StolenJmsDto stolenJmsDto;
         try {
