@@ -60,7 +60,7 @@ public class CarService {
         while (!breaker) {
             if (future.isDone()) {
                 try {
-                    this.ownerships = future.get();
+                    ownerships.addAll(future.get());
                     breaker = true;
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -77,7 +77,8 @@ public class CarService {
     }
 
     @Async
-    public List<Ownership> getAllOwnerships() {
+    public List<Ownership> getAllOwnerships(List<Ownership> ownerships) {
+        this.ownerships = ownerships;
         if (ownerships.isEmpty()) {
             getOwnershipsFromRemote();
         }

@@ -74,15 +74,10 @@ public class NewOwnershipView extends VerticalLayout implements View {
     }
 
     private void initializeLists() {
-        ownershipList = carService.getAllOwnerships();
+        ownershipList = new ArrayList<>();
+        carService.getAllOwnerships(ownershipList);
         carList = new ArrayList<>();
         citizenList = new ArrayList<>();
-    }
-
-    private void setOwnershipDataProvider() {
-        ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
-
-        ownershipGrid.setDataProvider(ownershipListDataProvider);
     }
 
     private VerticalLayout createOwnershipGrid() {
@@ -93,8 +88,12 @@ public class NewOwnershipView extends VerticalLayout implements View {
         ownershipGrid.setCaption("Ownerships");
 
         if (ownershipList == null) {
-            ownershipList = carService.getAllOwnerships();
+            ownershipList = new ArrayList<>();
+            carService.getAllOwnerships(ownershipList);
         }
+
+        ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
+        ownershipGrid.setDataProvider(ownershipListDataProvider);
 
         ownershipGrid.addColumn(Ownership::getId).setCaption("ID");
         ownershipGrid.addColumn(Ownership::getStartOwnership).setCaption("Start of ownership");
