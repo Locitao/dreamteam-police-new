@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * Created by Loci on 1-5-2017.
  */
 @SpringComponent
-public class CarService {
+public class CarOwnershipService {
 
     @Autowired
     private RemoteCarData remoteCarData;
@@ -77,13 +77,11 @@ public class CarService {
     }
 
     @Async
-    public List<Ownership> getAllOwnerships(List<Ownership> ownerships) {
+    public void getAllOwnerships(List<Ownership> ownerships) {
         this.ownerships = ownerships;
         if (ownerships.isEmpty()) {
             getOwnershipsFromRemote();
         }
-
-        return ownerships;
     }
 
 //    public List<Ownership> getOwnerships() {

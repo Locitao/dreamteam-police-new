@@ -3,10 +3,8 @@ package com.dreamteam.police.view;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Citizen;
 import com.dreamteam.police.model.Ownership;
-import com.dreamteam.police.remote.RemoteOwnershipData;
 import com.dreamteam.police.security.SecuritySingleton;
-import com.dreamteam.police.service.CarService;
-import com.dreamteam.police.service.OwnershipService;
+import com.dreamteam.police.service.CarOwnershipService;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.Navigator;
@@ -36,7 +34,7 @@ public class NewOwnershipView extends VerticalLayout implements View {
     public static final String NEW_OWNERSHIP_VIEW = "NEW_OWNERSHIP_VIEW";
 
     @Autowired
-    private CarService carService;
+    private CarOwnershipService carOwnershipService;
 
     @Autowired
     private SecuritySingleton securitySingleton;
@@ -75,7 +73,7 @@ public class NewOwnershipView extends VerticalLayout implements View {
 
     private void initializeLists() {
         ownershipList = new ArrayList<>();
-        carService.getAllOwnerships(ownershipList);
+        carOwnershipService.getAllOwnerships(ownershipList);
         carList = new ArrayList<>();
         citizenList = new ArrayList<>();
     }
@@ -89,7 +87,7 @@ public class NewOwnershipView extends VerticalLayout implements View {
 
         if (ownershipList == null) {
             ownershipList = new ArrayList<>();
-            carService.getAllOwnerships(ownershipList);
+            carOwnershipService.getAllOwnerships(ownershipList);
         }
 
         ownershipListDataProvider = DataProvider.ofCollection(ownershipList);

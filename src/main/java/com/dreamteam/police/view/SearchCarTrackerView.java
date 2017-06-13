@@ -1,11 +1,9 @@
 package com.dreamteam.police.view;
 
-import com.dreamteam.police.jms.Sender;
-import com.dreamteam.police.jms.StolenJmsDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Ownership;
 import com.dreamteam.police.security.SecuritySingleton;
-import com.dreamteam.police.service.CarService;
+import com.dreamteam.police.service.CarOwnershipService;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.Navigator;
@@ -34,7 +32,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     static final String SEARCH_CAR_VIEW = "SearchCarTracker";
 
     @Autowired
-    private CarService carService;
+    private CarOwnershipService carOwnershipService;
     @Autowired
     private SecuritySingleton securitySingleton;
 
@@ -65,7 +63,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
 
     private void initializeLists() {
         List<Ownership> ownerships = new ArrayList<>();
-        carService.getAllOwnerships(ownerships);
+        carOwnershipService.getAllOwnerships(ownerships);
         cars = ownerships.stream().map(Ownership::getOwned).collect(Collectors.toList());
     }
 
@@ -86,7 +84,7 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     }
 
     private void updateCarDataProvider() {
-        List<Car> newCars = carService.searchCarsByIcan(searchString);
+        List<Car> newCars = carOwnershipService.searchCarsByIcan(searchString);
         carListDataProvider = DataProvider.ofCollection(newCars);
         carGrid.setDataProvider(carListDataProvider);
     }
