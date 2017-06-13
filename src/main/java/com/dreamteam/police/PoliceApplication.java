@@ -47,7 +47,7 @@ public class PoliceApplication {
 	@Bean
 	JmsListenerContainerFactory<?> myJmsContainerFactory(ConnectionFactory connectionFactory) {
 		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-		factory.setClientId("dreamteam-police-temp");
+		factory.setClientId("dreamteam-police");
 		factory.setPubSubDomain(true);
 		factory.setConnectionFactory(activeMQConnectionFactory);
 
