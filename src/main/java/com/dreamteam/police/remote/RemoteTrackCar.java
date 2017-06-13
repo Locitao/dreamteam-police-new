@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -51,6 +52,7 @@ public class RemoteTrackCar {
 
         try {
             RestTemplate template = new RestTemplate();
+            ((SimpleClientHttpRequestFactory)template.getRequestFactory()).setReadTimeout(5000);
             ResponseEntity<IcanCoordinateDTO[]> responseEntity = template.getForEntity("http://192.168.24.31:8080/movement-registration/api/police/locationhistory/" + ICAN, IcanCoordinateDTO[].class);
             dtos = Arrays.asList(responseEntity.getBody());
             return dtos;
