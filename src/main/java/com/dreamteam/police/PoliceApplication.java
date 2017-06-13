@@ -14,12 +14,16 @@ import org.springframework.jms.config.SimpleJmsListenerContainerFactory;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
 
 @SpringBootApplication
 @EnableJms
+@EnableScheduling
+@EnableAsync
 public class PoliceApplication {
 
 	@Autowired

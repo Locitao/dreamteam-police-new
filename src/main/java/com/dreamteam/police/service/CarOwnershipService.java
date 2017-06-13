@@ -7,6 +7,7 @@ import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteOwnershipData;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.annotation.PostConstruct;
 import java.security.acl.Owner;
@@ -14,13 +15,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
  * Created by Loci on 1-5-2017.
  */
 @SpringComponent
-public class CarService {
+public class CarOwnershipService {
 
     @Autowired
     private RemoteCarData remoteCarData;
@@ -48,15 +52,39 @@ public class CarService {
         return new Car("NL 1234 AB", "VIN1234", "ASDF12");
     }
 
+
+    private void getOwnershipsFromRemote() {
+        CompletableFuture<List<Ownership>> future = remoteOwnershipData.getAllOwnerships();
+        boolean breaker = false;
+
+        while (!breaker) {
+            if (future.isDone()) {
+                try {
+                    ownerships.addAll(future.get());
+                    breaker = true;
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public List<Car> searchCarsByIcan(String ICAN) {
-        ownerships = remoteOwnershipData.getAllOwnerships();
         return ownerships.stream()
                 .map(Ownership::getOwned)
                 .filter(c -> c.getICAN().contains(ICAN))
                 .collect(Collectors.toList());
     }
 
-    public List<Ownership> getOwnerships() {
-        return Collections.unmodifiableList(ownerships);
+    @Async
+    public void getAllOwnerships(List<Ownership> ownerships) {
+        this.ownerships = ownerships;
+        if (ownerships.isEmpty()) {
+            getOwnershipsFromRemote();
+        }
     }
+
+//    public List<Ownership> getOwnerships() {
+//        return Collections.unmodifiableList(ownerships);
+//    }
 }

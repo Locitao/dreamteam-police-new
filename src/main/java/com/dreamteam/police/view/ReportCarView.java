@@ -1,12 +1,15 @@
 package com.dreamteam.police.view;
 
 import com.dreamteam.police.model.Car;
-import com.dreamteam.police.service.CarService;
+import com.dreamteam.police.security.SecuritySingleton;
+import com.dreamteam.police.service.CarOwnershipService;
 import com.dreamteam.police.service.ReportCarService;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.*;
@@ -14,7 +17,6 @@ import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +32,13 @@ public class ReportCarView extends VerticalLayout implements View {
     public static final String REPORT_CAR_VIEW = "report_car";
 
     @Autowired
-    private CarService carService;
+    private CarOwnershipService carOwnershipService;
 
     @Autowired
     private ReportCarService reportCarService;
+
+    @Autowired
+    private SecuritySingleton securitySingleton;
 
     private List<Car> cars;
     private ListDataProvider<Car> dataProvider;
@@ -120,7 +125,7 @@ public class ReportCarView extends VerticalLayout implements View {
     }
 
     private void updateCarGrid(String search) {
-        cars = carService.searchCarsByIcan(search);
+        cars = carOwnershipService.searchCarsByIcan(search);
         if (cars.isEmpty()) {
             Notification.show("No cars found.", Notification.Type.ASSISTIVE_NOTIFICATION);
         }
@@ -145,6 +150,11 @@ public class ReportCarView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent viewChangeEvent) {
+        if (!securitySingleton.isLoggedIn(VaadinSession.getCurrent().getSession().getId())) {
+            UI ui = UI.getCurrent();
+            Navigator navigator = ui.getNavigator();
+            navigator.navigateTo(LoginView.LOGIN_VIEW);
+        }
         //initialized in init method
     }
 }

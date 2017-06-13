@@ -3,9 +3,11 @@ package com.dreamteam.police.service;
 import com.dreamteam.police.jms.IcanCoordinateDTO;
 import com.dreamteam.police.model.Coordinate;
 import com.dreamteam.police.remote.RemoteTrackCar;
+import com.sun.xml.internal.ws.util.CompletedFuture;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Loci on 7-6-2017.
@@ -65,7 +69,32 @@ public class StolenCarLocationService {
         return remoteTrackCar.setRemoteTracking(ICAN);
     }
 
-    public List<IcanCoordinateDTO> getLocationHistory(String ICAN) {
-        return remoteTrackCar.getLocationHistory(ICAN);
+    @Async
+    public void getLocationHistory(String ICAN, List<IcanCoordinateDTO> dtos) {
+        try {
+            System.out.println("Hashcode of dtos" + dtos.hashCode());
+            fillCoordinateList(ICAN, dtos);
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillCoordinateList(String ICAN, List<IcanCoordinateDTO> dtos) throws ExecutionException, InterruptedException {
+        CompletableFuture<List<IcanCoordinateDTO>> future = remoteTrackCar.getLocationHistory(ICAN);
+
+        System.out.println("Remote called from StolenCarLocationService");
+        boolean breaker = false;
+        while (!breaker) {
+            if (future.isDone()) {
+                System.out.println("Future is done, adding to list");
+                System.out.println("Hashcode of dtos after future is done: " + dtos.hashCode());
+                dtos.addAll(future.get());
+                breaker = true;
+            }
+
+            if (future.isCancelled()) {
+                breaker = true;
+            }
+        }
     }
 }
