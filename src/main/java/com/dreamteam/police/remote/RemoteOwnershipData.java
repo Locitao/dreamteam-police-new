@@ -54,13 +54,4 @@ public class RemoteOwnershipData {
         }
         return CompletableFuture.completedFuture(new ArrayList<>());
     }
-
-//    @Async
-//    public CompletableFuture<List<Ownership>> getAllOwnerships() {
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<Ownership[]> responseEntity = restTemplate.exchange(baseUrl, HttpMethod.GET, new HttpEntity<>(authentication.getHeaders()), Ownership[].class);
-//        List<Ownership> ownerships = Arrays.asList(responseEntity.getBody());
-//
-//        return CompletableFuture.completedFuture(ownerships);
-//    }
 }

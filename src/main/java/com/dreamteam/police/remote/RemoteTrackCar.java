@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Created by Loci on 7-6-2017.
@@ -47,7 +49,8 @@ public class RemoteTrackCar {
         }
     }
 
-    public List<IcanCoordinateDTO> getLocationHistory(String ICAN) {
+    @Async
+    public CompletableFuture<List<IcanCoordinateDTO>> getLocationHistory(String ICAN) {
         List<IcanCoordinateDTO> dtos = new ArrayList<>();
 
         try {
@@ -55,7 +58,7 @@ public class RemoteTrackCar {
             ((SimpleClientHttpRequestFactory)template.getRequestFactory()).setReadTimeout(5000);
             ResponseEntity<IcanCoordinateDTO[]> responseEntity = template.getForEntity("http://192.168.24.31:8080/movement-registration/api/police/locationhistory/" + ICAN, IcanCoordinateDTO[].class);
             dtos = Arrays.asList(responseEntity.getBody());
-            return dtos;
+            return CompletableFuture.completedFuture(dtos);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
             ex.printStackTrace();
             return null;
