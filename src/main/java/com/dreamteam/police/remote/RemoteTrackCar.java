@@ -56,12 +56,15 @@ public class RemoteTrackCar {
         try {
             RestTemplate template = new RestTemplate();
             ((SimpleClientHttpRequestFactory)template.getRequestFactory()).setReadTimeout(5000);
+            System.out.println("Contacting remote.");
             ResponseEntity<IcanCoordinateDTO[]> responseEntity = template.getForEntity("http://192.168.24.31:8080/movement-registration/api/police/locationhistory/" + ICAN, IcanCoordinateDTO[].class);
+            System.out.println("Returned from remote");
             dtos = Arrays.asList(responseEntity.getBody());
+            System.out.println("About to return future dtos");
             return CompletableFuture.completedFuture(dtos);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
             ex.printStackTrace();
-            return null;
         }
+        return CompletableFuture.completedFuture(new ArrayList<>());
     }
 }

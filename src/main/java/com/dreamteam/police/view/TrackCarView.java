@@ -82,7 +82,11 @@ public class TrackCarView extends VerticalLayout implements View {
         locationHistoryButton.addStyleName(ValoTheme.BUTTON_FRIENDLY);
         locationHistoryButton.addClickListener(e -> {
             if (!field.isEmpty()) {
-                updateMapWithLocationHistory(field.getValue());
+                try {
+                    updateMapWithLocationHistory(field.getValue());
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
             } else {
                 Notification.show("Enter an ICAN if you want to see something.", Notification.Type.ERROR_MESSAGE);
             }
@@ -119,7 +123,7 @@ public class TrackCarView extends VerticalLayout implements View {
         getUI().push();
     }
 
-    private void updateMapWithLocationHistory(String ICAN) {
+    private void updateMapWithLocationHistory(String ICAN) throws InterruptedException {
         googleMap.clearMarkers();
         googleMap.removeAllComponents();
 
@@ -127,15 +131,23 @@ public class TrackCarView extends VerticalLayout implements View {
             googleMap.removePolyline(this.lastLine);
         }
 
-        List<IcanCoordinateDTO> dtos = stolenCarLocationService.getLocationHistory(ICAN);
+        List<IcanCoordinateDTO> dtos = new ArrayList<>();
+        stolenCarLocationService.getLocationHistory(ICAN, dtos);
 
-        if (dtos == null) {
-            Notification.show("Could not reach remote for location data.", Notification.Type.ERROR_MESSAGE);
-            return;
+        long time = System.currentTimeMillis();
+        long end = time + 10000;
+
+        //wait max 10 seconds
+        Notification.show("Waiting for data from remote server", Notification.Type.ASSISTIVE_NOTIFICATION);
+        while (dtos.isEmpty()) {
+            if (System.currentTimeMillis() > end) {
+                break;
+            }
+            Thread.sleep(100);
         }
-
+        System.out.println("Time passed: " + (System.currentTimeMillis() - time));
         if (dtos.isEmpty()) {
-            Notification.show("No location history found for given ICAN.", Notification.Type.TRAY_NOTIFICATION);
+            Notification.show("This ICAN was not found. Please do not try again.", Notification.Type.ERROR_MESSAGE);
             return;
         }
 

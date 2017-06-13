@@ -72,6 +72,7 @@ public class StolenCarLocationService {
     @Async
     public void getLocationHistory(String ICAN, List<IcanCoordinateDTO> dtos) {
         try {
+            System.out.println("Hashcode of dtos" + dtos.hashCode());
             fillCoordinateList(ICAN, dtos);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
@@ -81,9 +82,12 @@ public class StolenCarLocationService {
     private void fillCoordinateList(String ICAN, List<IcanCoordinateDTO> dtos) throws ExecutionException, InterruptedException {
         CompletableFuture<List<IcanCoordinateDTO>> future = remoteTrackCar.getLocationHistory(ICAN);
 
+        System.out.println("Remote called from StolenCarLocationService");
         boolean breaker = false;
         while (!breaker) {
             if (future.isDone()) {
+                System.out.println("Future is done, adding to list");
+                System.out.println("Hashcode of dtos after future is done: " + dtos.hashCode());
                 dtos.addAll(future.get());
                 breaker = true;
             }
