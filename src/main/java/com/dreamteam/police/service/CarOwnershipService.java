@@ -61,6 +61,7 @@ public class CarOwnershipService {
             if (future.isDone()) {
                 try {
                     ownerships.addAll(future.get());
+                    System.out.println("Added future ownerships to ownerships");
                     breaker = true;
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -70,6 +71,9 @@ public class CarOwnershipService {
     }
 
     public List<Car> searchCarsByIcan(String ICAN) {
+        if (ownerships.isEmpty()) {
+            getOwnershipsFromRemote();
+        }
         return ownerships.stream()
                 .map(Ownership::getOwned)
                 .filter(c -> c.getICAN().contains(ICAN))
