@@ -3,7 +3,6 @@ package com.dreamteam.police.service;
 import com.dreamteam.police.jms.IcanCoordinateDTO;
 import com.dreamteam.police.model.Coordinate;
 import com.dreamteam.police.remote.RemoteTrackCar;
-import com.sun.xml.internal.ws.util.CompletedFuture;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
