@@ -13,10 +13,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -88,6 +85,10 @@ public class NewOwnershipView extends VerticalLayout implements View {
         if (ownershipList == null) {
             ownershipList = new ArrayList<>();
             carOwnershipService.getAllOwnerships(ownershipList);
+        }
+
+        if (ownershipList.isEmpty()) {
+            Notification.show("Please wait while data is loaded.", Notification.Type.WARNING_MESSAGE);
         }
 
         ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
