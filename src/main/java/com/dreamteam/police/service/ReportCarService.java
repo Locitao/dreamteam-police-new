@@ -51,7 +51,7 @@ public class ReportCarService {
 
         boolean isStolen = status.toLowerCase().equals("stolen");
 
-        StolenJmsDto stolenJmsDto = new StolenJmsDto(car.getICAN(), car.getLicenceplate(), Instant.now().getEpochSecond(), isStolen);
+        StolenJmsDto stolenJmsDto = new StolenJmsDto(car.getICAN(), car.getLicenceplate(), Instant.now().toEpochMilli(), isStolen);
         jmsReporting.sendMessage(stolenJmsDto);
     }
 
