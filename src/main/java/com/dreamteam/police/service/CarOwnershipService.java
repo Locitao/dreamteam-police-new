@@ -5,6 +5,7 @@ import com.dreamteam.police.model.Citizen;
 import com.dreamteam.police.model.Ownership;
 import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteOwnershipData;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -33,6 +34,7 @@ public class CarOwnershipService {
     private RemoteOwnershipData remoteOwnershipData;
 
     private List<Ownership> ownerships;
+    private ListDataProvider<Ownership> listDataProvider;
 
     @PostConstruct
     void init() {
@@ -53,7 +55,7 @@ public class CarOwnershipService {
                 try {
                     ownerships.addAll(future.get());
                     System.out.println("Added future ownerships to ownerships");
-                    System.out.println("Hashcode of ownershiplist to which data was added: " + ownerships.hashCode());
+                    listDataProvider.refreshAll();
                     breaker = true;
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -61,7 +63,6 @@ public class CarOwnershipService {
             }
         }
     }
-
 
     public List<Car> searchCarsByIcan(String ICAN) {
         if (ownerships.isEmpty()) {
@@ -73,8 +74,9 @@ public class CarOwnershipService {
                 .collect(Collectors.toList());
     }
 
-    //@Async
-    public void getAllOwnerships(List<Ownership> ownerships) {
+    @Async
+    public void getAllOwnerships(List<Ownership> ownerships, ListDataProvider<Ownership> listDataProvider) {
+        this.listDataProvider = listDataProvider;
         this.ownerships = ownerships;
         if (ownerships.isEmpty()) {
             getOwnershipsFromRemote();

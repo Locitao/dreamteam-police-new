@@ -17,10 +17,12 @@ import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import javax.jms.ConnectionFactory;
 import javax.jms.Queue;
 import javax.jms.Topic;
+import java.util.concurrent.Executor;
 
 @SpringBootApplication
 @EnableJms
@@ -52,6 +54,17 @@ public class PoliceApplication {
 		factory.setConnectionFactory(activeMQConnectionFactory);
 
 		return factory;
+	}
+
+	@Bean
+	public Executor asyncExecutor() {
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(4);
+		executor.setMaxPoolSize(4);
+		executor.setQueueCapacity(500);
+		executor.setThreadNamePrefix("RemoteAPILookup-");
+		executor.initialize();
+		return executor;
 	}
 
 	public static void main(String[] args) {

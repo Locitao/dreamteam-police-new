@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,7 +24,7 @@ import java.util.concurrent.Future;
 /**
  * Created by Loci on 8-5-2017.
  */
-@SpringComponent
+@Service
 public class RemoteOwnershipData {
 
     @Autowired
@@ -31,7 +32,7 @@ public class RemoteOwnershipData {
 
     private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/ownerships";
 
-    //@Async
+    @Async
     public CompletableFuture<List<Ownership>> getAllOwnerships() {
         try {
             RestTemplate restTemplate = new RestTemplate();
