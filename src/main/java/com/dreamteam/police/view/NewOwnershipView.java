@@ -84,17 +84,18 @@ public class NewOwnershipView extends VerticalLayout implements View {
 
         if (ownershipList == null) {
             ownershipList = new ArrayList<>();
-            carOwnershipService.getAllOwnerships(ownershipList);
+            ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
+            ownershipGrid.setDataProvider(ownershipListDataProvider);
+            carOwnershipService.getAllOwnerships(ownershipList, ownershipListDataProvider);
         }
 
         if (ownershipList.isEmpty()) {
-            System.out.println("Hashcode of ownershiplist to which data was added: " + ownershipList.hashCode());
-            carOwnershipService.getAllOwnerships(ownershipList);
+            ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
+            ownershipGrid.setDataProvider(ownershipListDataProvider);
+
+            carOwnershipService.getAllOwnerships(ownershipList, ownershipListDataProvider);
             Notification.show("Please wait while data is loaded.", Notification.Type.WARNING_MESSAGE);
         }
-
-        ownershipListDataProvider = DataProvider.ofCollection(ownershipList);
-        ownershipGrid.setDataProvider(ownershipListDataProvider);
 
         ownershipGrid.addColumn(Ownership::getId).setCaption("ID");
         ownershipGrid.addColumn(Ownership::getStartOwnership).setCaption("Start of ownership");
