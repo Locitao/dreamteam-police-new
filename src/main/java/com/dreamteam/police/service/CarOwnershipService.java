@@ -44,15 +44,6 @@ public class CarOwnershipService {
         //ownerships = remoteOwnershipData.getAllOwnerships();
     }
 
-    public List<Car> getAllStolenCars() {
-        return new ArrayList<>();
-    }
-
-    public Car findCarByICAN(String ICAN) {
-        return new Car("NL 1234 AB", "VIN1234", "ASDF12");
-    }
-
-
     private void getOwnershipsFromRemote() {
         CompletableFuture<List<Ownership>> future = remoteOwnershipData.getAllOwnerships();
         boolean breaker = false;
@@ -69,6 +60,7 @@ public class CarOwnershipService {
             }
         }
     }
+
 
     public List<Car> searchCarsByIcan(String ICAN) {
         if (ownerships.isEmpty()) {
@@ -87,8 +79,4 @@ public class CarOwnershipService {
             getOwnershipsFromRemote();
         }
     }
-
-//    public List<Ownership> getOwnerships() {
-//        return Collections.unmodifiableList(ownerships);
-//    }
 }

@@ -51,7 +51,6 @@ public class ReportCarView extends VerticalLayout implements View {
     @PostConstruct
     void init() {
         HorizontalLayout root = new HorizontalLayout();
-        root.setSizeFull();
 
         cars = new ArrayList<>();
 
@@ -78,7 +77,10 @@ public class ReportCarView extends VerticalLayout implements View {
 
     private VerticalLayout createCarGridLayout() {
         VerticalLayout layout = new VerticalLayout();
+        layout.setWidth("1000px");
+        layout.setHeight("700px");
         carGrid = new Grid<>();
+        carGrid.setSizeFull();
 
         carGrid.addColumn(Car::getICAN).setCaption("ICAN");
         carGrid.addColumn(Car::getVIN).setCaption("VIN");
