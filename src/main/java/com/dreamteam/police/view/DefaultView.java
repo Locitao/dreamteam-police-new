@@ -9,10 +9,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -34,14 +31,10 @@ public class DefaultView extends VerticalLayout implements View {
     @PostConstruct
     void init() {
         addComponent(new Label("Please click on one of the buttons above for useful stuff."));
-
-        addComponent(new Label(securitySingleton.isLoggedIn(VaadinSession.getCurrent().getSession().getId()) ? "logged in" : "fucked up"));
-//        Button test = new Button("send test message");
-//        test.addClickListener(e -> {
-//            StolenJmsDto stolenDto = new StolenJmsDto("asdf", "1234", Instant.now().getEpochSecond(), true);
-//            jmsSender.sendMessage(stolenDto);
-//        });
-//        addComponent(test);
+        addComponent(new Label("Under search car trackers you can view car trackers based on their ICAN."));
+        addComponent(new Label("Under ownership view you can inspect currently known ownerships of cars."));
+        addComponent(new Label("Under car reporting you can report cars as stolen, found or other."));
+        addComponent(new Label("Under track car you can live track a car by ICAN, or look up the location history of a car."));
     }
 
     @Override
