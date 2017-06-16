@@ -31,7 +31,7 @@ public class RemoteOwnershipData {
 
     private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/ownerships";
 
-    @Async
+    //@Async
     public CompletableFuture<List<Ownership>> getAllOwnerships() {
         try {
             RestTemplate restTemplate = new RestTemplate();

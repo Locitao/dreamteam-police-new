@@ -70,7 +70,7 @@ public class NewOwnershipView extends VerticalLayout implements View {
 
     private void initializeLists() {
         ownershipList = new ArrayList<>();
-        carOwnershipService.getAllOwnerships(ownershipList);
+        //carOwnershipService.getAllOwnerships(ownershipList);
         carList = new ArrayList<>();
         citizenList = new ArrayList<>();
     }
@@ -88,6 +88,8 @@ public class NewOwnershipView extends VerticalLayout implements View {
         }
 
         if (ownershipList.isEmpty()) {
+            System.out.println("Hashcode of ownershiplist to which data was added: " + ownershipList.hashCode());
+            carOwnershipService.getAllOwnerships(ownershipList);
             Notification.show("Please wait while data is loaded.", Notification.Type.WARNING_MESSAGE);
         }
 
