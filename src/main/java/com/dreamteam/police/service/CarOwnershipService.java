@@ -53,6 +53,7 @@ public class CarOwnershipService {
                 try {
                     ownerships.addAll(future.get());
                     System.out.println("Added future ownerships to ownerships");
+                    System.out.println("Hashcode of ownershiplist to which data was added: " + ownerships.hashCode());
                     breaker = true;
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -72,7 +73,7 @@ public class CarOwnershipService {
                 .collect(Collectors.toList());
     }
 
-    @Async
+    //@Async
     public void getAllOwnerships(List<Ownership> ownerships) {
         this.ownerships = ownerships;
         if (ownerships.isEmpty()) {
