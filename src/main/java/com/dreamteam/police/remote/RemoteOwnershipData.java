@@ -42,7 +42,7 @@ public class RemoteOwnershipData {
 
             ownershipsDtos.forEach(o -> {
                 Ownership ownership = new Ownership();
-                ownership.setOwned(new Car(o.getCarDTO().getId(), o.getCarDTO().getIcan(), o.getCarDTO().getVin(), o.getCarDTO().getLicensePlate()));
+                ownership.setOwned(new Car(o.getCarDTO().getId(), o.getCarDTO().getIcan(), o.getCarDTO().getVin(), o.getCarDTO().getLicensePlate(), o.getCarDTO().getVehicleColor()));
                 ownership.setOwner(o.getCitizenDTO());
                 ownership.setStartOwnership(o.getStartOwnership());
                 ownerships.add(ownership);

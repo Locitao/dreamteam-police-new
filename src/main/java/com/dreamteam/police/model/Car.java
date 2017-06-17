@@ -2,6 +2,9 @@ package com.dreamteam.police.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.PopupView;
+import com.vaadin.ui.VerticalLayout;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.Entity;
@@ -42,6 +45,13 @@ public class Car implements Serializable {
         this.ICAN = ICAN;
         this.VIN = VIN;
         this.licenceplate = licenceplate;
+    }
+    public Car(Long id, String ICAN, String VIN, String licenceplate, String color) {
+        this.id = id;
+        this.ICAN = ICAN;
+        this.VIN = VIN;
+        this.licenceplate = licenceplate;
+        this.color = color;
     }
 
     public Car(String ICAN, String VIN, String licenceplate) {

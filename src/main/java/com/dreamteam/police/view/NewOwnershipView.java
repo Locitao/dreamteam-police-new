@@ -14,6 +14,8 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.ButtonRenderer;
+import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -97,7 +99,7 @@ public class NewOwnershipView extends VerticalLayout implements View {
             Notification.show("Please wait while data is loaded.", Notification.Type.WARNING_MESSAGE);
         }
 
-        ownershipGrid.addColumn(Ownership::getId).setCaption("ID");
+        //ownershipGrid.addColumn(Ownership::getId).setCaption("ID");
         ownershipGrid.addColumn(Ownership::getStartOwnership).setCaption("Start of ownership");
         ownershipGrid.addColumn(Ownership::getEndOwnership).setCaption("End of ownership");
 
@@ -128,6 +130,7 @@ public class NewOwnershipView extends VerticalLayout implements View {
 
         carGrid.addColumn(Car::getICAN).setCaption("ICAN");
         carGrid.addColumn(Car::getVIN).setCaption("VIN");
+        carGrid.addColumn(Car::getColor).setCaption("Color");
 
         layout.addComponent(carGrid);
 
