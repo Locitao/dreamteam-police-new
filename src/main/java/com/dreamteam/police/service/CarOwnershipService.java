@@ -7,6 +7,7 @@ import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteOwnershipData;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.spring.annotation.SpringComponent;
+import com.vaadin.ui.UI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
@@ -36,6 +37,9 @@ public class CarOwnershipService {
     private List<Ownership> ownerships;
     private ListDataProvider<Ownership> listDataProvider;
 
+    private List<Car> cars;
+    private ListDataProvider<Car> carListDataProvider;
+
     @PostConstruct
     void init() {
         ownerships = new ArrayList<>();
@@ -55,7 +59,12 @@ public class CarOwnershipService {
                 try {
                     ownerships.addAll(future.get());
                     System.out.println("Added future ownerships to ownerships");
-                    listDataProvider.refreshAll();
+                    if (listDataProvider != null) {
+                        listDataProvider.refreshAll();
+                    }
+                    if (carListDataProvider != null) {
+                        carListDataProvider.refreshAll();
+                    }
                     breaker = true;
                 } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
@@ -64,14 +73,18 @@ public class CarOwnershipService {
         }
     }
 
-    public List<Car> searchCarsByIcan(String ICAN) {
+    @Async
+    public void searchCarsByIcan(String ICAN, ListDataProvider<Car> carListDataProvider, List<Car> cars) {
+        this.carListDataProvider = carListDataProvider;
+        this.cars = cars;
         if (ownerships.isEmpty()) {
             getOwnershipsFromRemote();
         }
-        return ownerships.stream()
+        cars.addAll(ownerships.stream()
                 .map(Ownership::getOwned)
                 .filter(c -> c.getICAN().contains(ICAN))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
+        carListDataProvider.refreshAll();
     }
 
     @Async
