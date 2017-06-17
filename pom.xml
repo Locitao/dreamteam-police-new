@@ -134,7 +134,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
         				<executable>true</executable>
-    				</configuration>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.vaadin</groupId>

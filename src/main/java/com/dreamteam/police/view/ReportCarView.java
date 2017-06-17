@@ -127,12 +127,10 @@ public class ReportCarView extends VerticalLayout implements View {
     }
 
     private void updateCarGrid(String search) {
-        cars = carOwnershipService.searchCarsByIcan(search);
-        if (cars.isEmpty()) {
-            Notification.show("No cars found.", Notification.Type.ASSISTIVE_NOTIFICATION);
-        }
+        List<Car> cars = new ArrayList<>();
         dataProvider = DataProvider.ofCollection(cars);
         carGrid.setDataProvider(dataProvider);
+        carOwnershipService.searchCarsByIcan(search, dataProvider, cars);
     }
 
     private void postCarAsStolen(String status, String comment) {

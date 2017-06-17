@@ -47,7 +47,6 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     @PostConstruct
     void init() {
         HorizontalLayout layout = new HorizontalLayout();
-        layout.setSizeFull();
 
         initializeLists();
 
@@ -63,13 +62,12 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
 
     private void initializeLists() {
         List<Ownership> ownerships = new ArrayList<>();
-        carOwnershipService.getAllOwnerships(ownerships);
+        //carOwnershipService.getAllOwnerships(ownerships);
         cars = ownerships.stream().map(Ownership::getOwned).collect(Collectors.toList());
     }
 
     private VerticalLayout createSearchLayout() {
         VerticalLayout search = new VerticalLayout();
-        search.setSizeFull();
 
         TextField searchBox = new TextField("Enter ICAN");
         Button searchButton = new Button("Search for matching cars");
@@ -84,19 +82,21 @@ public class SearchCarTrackerView extends VerticalLayout implements View {
     }
 
     private void updateCarDataProvider() {
-        List<Car> newCars = carOwnershipService.searchCarsByIcan(searchString);
+        List<Car> newCars = new ArrayList<>();
         carListDataProvider = DataProvider.ofCollection(newCars);
         carGrid.setDataProvider(carListDataProvider);
+        carOwnershipService.searchCarsByIcan(searchString, carListDataProvider, newCars);
     }
 
     private VerticalLayout createCarGrid() {
         VerticalLayout layout = new VerticalLayout();
-        layout.setSizeFull();
+        layout.setWidth("1350px");
 
         carGrid = new Grid<>();
         carGrid.addColumn(Car::getICAN).setCaption("ICAN");
         carGrid.addColumn(Car::getVIN).setCaption("VIN");
         carGrid.addColumn(Car::getLicenceplate).setCaption("Licence plate");
+        carGrid.setSizeFull();
 
         layout.addComponent(carGrid);
         return layout;
