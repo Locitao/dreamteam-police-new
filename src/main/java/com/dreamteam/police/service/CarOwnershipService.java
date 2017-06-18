@@ -1,25 +1,18 @@
 package com.dreamteam.police.service;
 
 import com.dreamteam.police.model.Car;
-import com.dreamteam.police.model.Citizen;
 import com.dreamteam.police.model.Ownership;
-import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteOwnershipData;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.UI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
 import javax.annotation.PostConstruct;
-import java.security.acl.Owner;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**

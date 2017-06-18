@@ -9,8 +9,6 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 /**
  * Created by loci on 28-5-17.
  */

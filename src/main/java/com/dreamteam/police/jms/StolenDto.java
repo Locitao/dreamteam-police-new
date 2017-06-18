@@ -3,7 +3,7 @@ package com.dreamteam.police.jms;
 /**
  * Created by Loci on 2-6-2017.
  */
-public class StolenDto {
+class StolenDto {
     private String ican;
     private String licensePlate;
     private Long timestamp;

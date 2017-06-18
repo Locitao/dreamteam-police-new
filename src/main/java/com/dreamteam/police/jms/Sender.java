@@ -15,9 +15,11 @@ import javax.jms.Topic;
 public class Sender {
 
     @Autowired
+    private
     ConfigurableApplicationContext context;
 
     @Autowired
+    private
     Topic stolenCarTopic;
 
     public void sendMessage(StolenJmsDto stolenJmsDto) {

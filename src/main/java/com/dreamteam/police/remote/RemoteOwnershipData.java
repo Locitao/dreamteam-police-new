@@ -3,14 +3,12 @@ package com.dreamteam.police.remote;
 import com.dreamteam.police.dto.OwnershipDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Ownership;
-import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 /**
  * Created by Loci on 8-5-2017.
@@ -28,9 +25,10 @@ import java.util.concurrent.Future;
 public class RemoteOwnershipData {
 
     @Autowired
+    private
     Authentication authentication;
 
-    private String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/ownerships";
+    private final String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/ownerships";
 
     @Async
     public CompletableFuture<List<Ownership>> getAllOwnerships() {

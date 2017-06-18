@@ -3,7 +3,6 @@ package com.dreamteam.police.service;
 import com.dreamteam.police.dto.CarDTO;
 import com.dreamteam.police.dto.StolenDTO;
 import com.dreamteam.police.jms.Sender;
-import com.dreamteam.police.jms.StolenDto;
 import com.dreamteam.police.jms.StolenJmsDto;
 
 import com.dreamteam.police.model.Car;
@@ -12,12 +11,7 @@ import com.dreamteam.police.remote.RemoteReporting;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.time.Instant;
-
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.List;
 
 
 /**
@@ -27,6 +21,7 @@ import java.util.List;
 public class ReportCarService {
 
     @Autowired
+    private
     RemoteReporting remoteReporting;
     @Autowired
     RemoteCarData remoteCarData;
@@ -34,6 +29,7 @@ public class ReportCarService {
     Sender sender;
 
     @Autowired
+    private
     Sender jmsReporting;
 
     /**

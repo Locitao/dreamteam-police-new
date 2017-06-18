@@ -1,8 +1,6 @@
 package com.dreamteam.police.view;
 
 import com.dreamteam.police.jms.Sender;
-import com.dreamteam.police.jms.StolenDto;
-import com.dreamteam.police.jms.StolenJmsDto;
 import com.dreamteam.police.security.SecuritySingleton;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -13,7 +11,6 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.time.Instant;
 
 /**
  * Created by Loci on 30-4-2017.

@@ -14,12 +14,10 @@ import org.mockito.MockitoAnnotations;
 
 import javax.annotation.Resource;
 
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 /**
@@ -28,13 +26,15 @@ import static org.mockito.Mockito.when;
 public class CarOwnershipServiceTest {
 
     @Mock
+    private
     RemoteOwnershipData ownershipData;
 
     @InjectMocks
     @Resource
+    private
     CarOwnershipService carOwnershipService;
 
-    private String validIcan = "1234";
+    private final String validIcan = "1234";
     private ListDataProvider<Car> carListDataProvider;
     private List<Car> cars;
     private List<Ownership> ownerships;

@@ -155,9 +155,7 @@ public class TrackCarView extends VerticalLayout implements View {
         System.out.println("size of dtos: " + dtos.size());
 
         List<LatLon> latlons = new ArrayList<>();
-        dtos.forEach(d -> {
-            latlons.add(new LatLon(d.getLat(), d.getLng()));
-        });
+        dtos.forEach(d -> latlons.add(new LatLon(d.getLat(), d.getLng())));
 
         System.out.println("Size of latlons: " + latlons.size());
 
