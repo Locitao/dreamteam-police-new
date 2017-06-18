@@ -4,6 +4,8 @@ import com.dreamteam.police.jms.IcanCoordinateDTO;
 import com.dreamteam.police.remote.dto.IcanDTO;
 import com.google.gson.Gson;
 import com.vaadin.spring.annotation.SpringComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -25,6 +27,8 @@ import java.util.concurrent.CompletableFuture;
 @SpringComponent
 public class RemoteTrackCar {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public boolean setRemoteTracking(String ICAN) {
         IcanDTO dto = new IcanDTO();
         dto.setICAN(ICAN);
@@ -45,6 +49,7 @@ public class RemoteTrackCar {
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
             System.out.println("api not online yet.");
             ex.printStackTrace();
+            logger.error("Failed to post car as stolen", ex);
             return false;
         }
     }
@@ -64,6 +69,7 @@ public class RemoteTrackCar {
             return CompletableFuture.completedFuture(dtos);
         } catch (HttpClientErrorException | HttpServerErrorException ex) {
             ex.printStackTrace();
+            logger.error("Failed to get location history: ", ex);
         }
         return CompletableFuture.completedFuture(new ArrayList<>());
     }

@@ -3,6 +3,8 @@ package com.dreamteam.police.remote;
 import com.dreamteam.police.dto.OwnershipDto;
 import com.dreamteam.police.model.Car;
 import com.dreamteam.police.model.Ownership;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -25,9 +27,9 @@ import java.util.concurrent.CompletableFuture;
 public class RemoteOwnershipData {
 
     @Autowired
-    private
-    Authentication authentication;
+    private Authentication authentication;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final String baseUrl = "http://192.168.24.33:8080/dreamteam-administration/police/api/ownerships";
 
     @Async
@@ -51,6 +53,7 @@ public class RemoteOwnershipData {
             return CompletableFuture.completedFuture(ownerships);
         } catch (HttpClientErrorException ex) {
             ex.printStackTrace();
+            logger.error("Could not connect to remote", ex);
         }
         return CompletableFuture.completedFuture(new ArrayList<>());
     }

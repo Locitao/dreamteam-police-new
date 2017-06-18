@@ -6,7 +6,6 @@ import com.dreamteam.police.jms.Sender;
 import com.dreamteam.police.jms.StolenJmsDto;
 
 import com.dreamteam.police.model.Car;
-import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteReporting;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ public class ReportCarService {
     @Autowired
     private
     RemoteReporting remoteReporting;
-    @Autowired
-    RemoteCarData remoteCarData;
     @Autowired
     Sender sender;
 
