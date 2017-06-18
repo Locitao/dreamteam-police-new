@@ -1,18 +1,12 @@
 package com.dreamteam.police.remote;
 
 import com.dreamteam.police.dto.StolenDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.vaadin.spring.annotation.SpringComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by Loci on 15-5-2017.
@@ -21,6 +15,7 @@ import java.util.Map;
 public class RemoteReporting {
 
     @Autowired
+    private
     Authentication authentication;
 
     public boolean reportCar(StolenDTO stolenDTO) {

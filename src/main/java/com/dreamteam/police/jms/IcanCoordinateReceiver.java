@@ -17,6 +17,7 @@ import java.util.List;
 public class IcanCoordinateReceiver {
 
     @Autowired
+    private
     StolenCarLocationService stolenCarLocationService;
 
     @JmsListener(destination = "police.stolen.car.coordinates", containerFactory = "jmsListenerContainerQueue")

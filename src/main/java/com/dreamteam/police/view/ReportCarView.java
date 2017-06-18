@@ -118,9 +118,7 @@ public class ReportCarView extends VerticalLayout implements View {
 
         Button button = new Button("Post status of car");
         button.addStyleName(ValoTheme.BUTTON_FRIENDLY);
-        button.addClickListener(e -> {
-            postCarAsStolen(selectedStatus, commentArea.getValue());
-        });
+        button.addClickListener(e -> postCarAsStolen(selectedStatus, commentArea.getValue()));
         layout.addComponent(button);
 
         return layout;

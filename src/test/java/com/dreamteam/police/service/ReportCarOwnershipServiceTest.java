@@ -15,8 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import java.io.IOException;
-
 import static org.mockito.Mockito.when;
 
 /**
@@ -33,8 +31,8 @@ public class ReportCarOwnershipServiceTest {
     @Resource
     private ReportCarService reportCarService;
 
-    private Car validCar = new Car(1L,"1234", "123", "asdf12");
-    private StolenDTO validStolenDTO = new StolenDTO(new CarDTO(validCar.getId(), validCar.getLicenceplate(), validCar.getVIN(), validCar.getICAN()), "asdf", "asdf");
+    private final Car validCar = new Car(1L,"1234", "123", "asdf12");
+    private final StolenDTO validStolenDTO = new StolenDTO(new CarDTO(validCar.getId(), validCar.getLicenceplate(), validCar.getVIN(), validCar.getICAN()), "asdf", "asdf");
 
     @Before
     public void setUp() {

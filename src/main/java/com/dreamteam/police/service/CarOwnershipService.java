@@ -1,25 +1,18 @@
 package com.dreamteam.police.service;
 
 import com.dreamteam.police.model.Car;
-import com.dreamteam.police.model.Citizen;
 import com.dreamteam.police.model.Ownership;
-import com.dreamteam.police.remote.RemoteCarData;
 import com.dreamteam.police.remote.RemoteOwnershipData;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.spring.annotation.SpringComponent;
-import com.vaadin.ui.UI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
 import javax.annotation.PostConstruct;
-import java.security.acl.Owner;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -27,9 +20,6 @@ import java.util.stream.Collectors;
  */
 @SpringComponent
 public class CarOwnershipService {
-
-    @Autowired
-    private RemoteCarData remoteCarData;
 
     @Autowired
     private RemoteOwnershipData remoteOwnershipData;
@@ -43,11 +33,35 @@ public class CarOwnershipService {
     @PostConstruct
     void init() {
         ownerships = new ArrayList<>();
-        //ownerships = getTestCars();
-        /*
-        Only for demo purposes; will be reworked into ownership service
-         */
-        //ownerships = remoteOwnershipData.getAllOwnerships();
+    }
+
+
+    @Async
+    public void searchCarsByIcan(String ICAN, ListDataProvider<Car> carListDataProvider, List<Car> cars) {
+        this.carListDataProvider = carListDataProvider;
+        this.cars = cars;
+
+        if (ownerships == null) {
+            ownerships = new ArrayList<>();
+        }
+
+        if (ownerships.isEmpty()) {
+            getOwnershipsFromRemote();
+        }
+        cars.addAll(ownerships.stream()
+                .map(Ownership::getOwned)
+                .filter(c -> c.getICAN().contains(ICAN))
+                .collect(Collectors.toList()));
+        carListDataProvider.refreshAll();
+    }
+
+    @Async
+    public void getAllOwnerships(List<Ownership> ownerships, ListDataProvider<Ownership> listDataProvider) {
+        this.listDataProvider = listDataProvider;
+        this.ownerships = ownerships;
+        if (ownerships.isEmpty()) {
+            getOwnershipsFromRemote();
+        }
     }
 
     private void getOwnershipsFromRemote() {
@@ -70,29 +84,6 @@ public class CarOwnershipService {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    @Async
-    public void searchCarsByIcan(String ICAN, ListDataProvider<Car> carListDataProvider, List<Car> cars) {
-        this.carListDataProvider = carListDataProvider;
-        this.cars = cars;
-        if (ownerships.isEmpty()) {
-            getOwnershipsFromRemote();
-        }
-        cars.addAll(ownerships.stream()
-                .map(Ownership::getOwned)
-                .filter(c -> c.getICAN().contains(ICAN))
-                .collect(Collectors.toList()));
-        carListDataProvider.refreshAll();
-    }
-
-    @Async
-    public void getAllOwnerships(List<Ownership> ownerships, ListDataProvider<Ownership> listDataProvider) {
-        this.listDataProvider = listDataProvider;
-        this.ownerships = ownerships;
-        if (ownerships.isEmpty()) {
-            getOwnershipsFromRemote();
         }
     }
 }

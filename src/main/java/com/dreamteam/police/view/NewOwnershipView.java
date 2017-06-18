@@ -14,8 +14,6 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.ViewScope;
 import com.vaadin.ui.*;
-import com.vaadin.ui.renderers.ButtonRenderer;
-import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -105,10 +103,10 @@ public class NewOwnershipView extends VerticalLayout implements View {
 
         ownershipGrid.addSelectionListener(event -> {
             Optional<Ownership> temp = event.getFirstSelectedItem();
-            if (temp.isPresent()) {
-                selectedOwnership = temp.get();
+            temp.ifPresent(ownership -> {
+                selectedOwnership = ownership;
                 updateCarAndCitizen();
-            }
+            });
         });
 
         layout.addComponent(ownershipGrid);

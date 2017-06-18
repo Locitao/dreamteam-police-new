@@ -11,9 +11,6 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
-import javax.sound.midi.Track;
-import java.io.File;
-
 /**
  * Created by Loci on 30-4-2017.
  */
